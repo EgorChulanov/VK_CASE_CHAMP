@@ -1,0 +1,6 @@
+__pycache__/
+node_modules/
+presentation/renders/
+presentation/DigitalCats_strategy_msk.pdf
+
+.venv/
