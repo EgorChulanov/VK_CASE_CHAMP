@@ -1,0 +1,818 @@
+{
+  "source_filename": "VK_CaseChamp_2026_Отборочныи__этап_Датасет (1).xlsx",
+  "source_sha256": "f31d02d4c5f8b48b6582229d6dbf8da3c64efcf0567c90151fb7edcfed160a24",
+  "period": [
+    "2026-09-01 00:00:00",
+    "2026-09-30 00:00:00"
+  ],
+  "schema": {
+    "Бизнесы": {
+      "records": 9754,
+      "columns": [
+        "ID бизнеса",
+        "Тематика",
+        "Тип бизнеса (товары / услуги)",
+        "Число подписчиков",
+        "Посты за 30 дней",
+        "Клипы за 30 дней",
+        "Посты с товаром за 30 дней",
+        "Клипы с товаром за 30 дней",
+        "Просмотры обычного контента",
+        "Лайки обычного контента",
+        "Репосты обычного контента",
+        "Просмотры товарного контента",
+        "Лайки товарного контента",
+        "Репосты товарного контента",
+        "Открытия карточки товара из контента",
+        "Товары загружены",
+        "Число активных товаров в каталоге",
+        "Подключён чекаут",
+        "Подключена доставка",
+        "Подключена оплата",
+        "Автор оригинального контента (оценка модели)",
+        "Участие в реферальной программе",
+        "Заказы через чекаут",
+        "GMV через чекаут, ₽",
+        "Средний чек, ₽",
+        "Траты на рекламу всего, ₽",
+        "Число активных услуг",
+        "Медианная цена товара, ₽"
+      ]
+    },
+    "Маркет Вконтакте — итоги": {
+      "records": 26,
+      "columns": [
+        "Метрика",
+        "Маркет Вконтакте",
+        "Партнёр 1",
+        "Всего"
+      ]
+    },
+    "Маркет Вконтакте — по дням": {
+      "records": 30,
+      "columns": [
+        "Дата",
+        "DAU Маркета Вконтакте",
+        "Видели товары (уник.)",
+        "Открывали карточку (уник.)",
+        "Поисковые запросы",
+        "Поисковые запросы с открытием карточки",
+        "Показы товаров: Маркет Вконтакте",
+        "Показы товаров: Партнёр 1",
+        "Открытия карточки: Маркет Вконтакте",
+        "Открытия карточки: Партнёр 1",
+        "Нажатия на кнопку: Маркет Вконтакте",
+        "Нажатия на кнопку: Партнёр 1",
+        "Заказы: Маркет Вконтакте",
+        "Заказы: Партнёр 1",
+        "Оплаченные заказы: Маркет Вконтакте",
+        "GMV, ₽: Маркет Вконтакте",
+        "GMV, ₽: Партнёр 1",
+        "Покупатели: Маркет Вконтакте",
+        "Покупатели: Партнёр 1"
+      ]
+    },
+    "Маркет Вконтакте — источники": {
+      "records": 7,
+      "columns": [
+        "Источник",
+        "Маркет Вконтакте",
+        "Доля, %: Маркет Вконтакте",
+        "Партнёр 1",
+        "Доля, %: Партнёр 1"
+      ]
+    },
+    "Маркет Вконтакте — категории": {
+      "records": 18,
+      "columns": [
+        "Категория",
+        "Открытия карточки: Маркет Вконтакте",
+        "Заказы: Маркет Вконтакте",
+        "Открытия карточки: Партнёр 1",
+        "Заказы: Партнёр 1"
+      ]
+    },
+    "Покупатели": {
+      "records": 15,
+      "columns": [
+        "Пол",
+        "Возраст",
+        "Покупатели: Маркет Вконтакте",
+        "Заказы: Маркет Вконтакте",
+        "Покупатели: Партнёр 1",
+        "Заказы: Партнёр 1"
+      ]
+    },
+    "Покупатели по регионам": {
+      "records": 89,
+      "columns": [
+        "Регион",
+        "Покупатели: Маркет Вконтакте",
+        "Заказы: Маркет Вконтакте",
+        "Покупатели: Партнёр 1",
+        "Заказы: Партнёр 1"
+      ]
+    }
+  },
+  "unique_business_ids": 9754,
+  "missing_by_column": {
+    "ID бизнеса": 0,
+    "Тематика": 0,
+    "Тип бизнеса (товары / услуги)": 0,
+    "Число подписчиков": 0,
+    "Посты за 30 дней": 0,
+    "Клипы за 30 дней": 0,
+    "Посты с товаром за 30 дней": 0,
+    "Клипы с товаром за 30 дней": 0,
+    "Просмотры обычного контента": 0,
+    "Лайки обычного контента": 0,
+    "Репосты обычного контента": 0,
+    "Просмотры товарного контента": 0,
+    "Лайки товарного контента": 0,
+    "Репосты товарного контента": 0,
+    "Открытия карточки товара из контента": 0,
+    "Товары загружены": 0,
+    "Число активных товаров в каталоге": 0,
+    "Подключён чекаут": 0,
+    "Подключена доставка": 0,
+    "Подключена оплата": 0,
+    "Автор оригинального контента (оценка модели)": 2570,
+    "Участие в реферальной программе": 0,
+    "Заказы через чекаут": 0,
+    "GMV через чекаут, ₽": 0,
+    "Средний чек, ₽": 9463,
+    "Траты на рекламу всего, ₽": 0,
+    "Число активных услуг": 0,
+    "Медианная цена товара, ₽": 5412
+  },
+  "totals": {
+    "businesses": 9754,
+    "checkout_enabled": 5737,
+    "payment_enabled": 255,
+    "with_orders": 298,
+    "orders": 3478,
+    "gmv_rub": 9973027,
+    "product_views": 18366709,
+    "card_opens_from_content": 53068,
+    "ad_spend_rub": 92363414
+  },
+  "by_business_type": {
+    "без каталога": {
+      "businesses": 3168,
+      "checkout_enabled": 1109,
+      "payment_enabled": 17,
+      "with_orders": 10,
+      "orders": 16,
+      "gmv_rub": 93650,
+      "product_views": 8732482,
+      "card_opens_from_content": 30535,
+      "ad_spend_rub": 19119300
+    },
+    "товарное": {
+      "businesses": 3150,
+      "checkout_enabled": 2895,
+      "payment_enabled": 165,
+      "with_orders": 241,
+      "orders": 3207,
+      "gmv_rub": 8720487,
+      "product_views": 6710290,
+      "card_opens_from_content": 18839,
+      "ad_spend_rub": 52371953
+    },
+    "товарное и услужное": {
+      "businesses": 1008,
+      "checkout_enabled": 931,
+      "payment_enabled": 51,
+      "with_orders": 44,
+      "orders": 251,
+      "gmv_rub": 1144580,
+      "product_views": 2566159,
+      "card_opens_from_content": 2858,
+      "ad_spend_rub": 8188489
+    },
+    "услужное": {
+      "businesses": 2428,
+      "checkout_enabled": 802,
+      "payment_enabled": 22,
+      "with_orders": 3,
+      "orders": 4,
+      "gmv_rub": 14310,
+      "product_views": 357778,
+      "card_opens_from_content": 836,
+      "ad_spend_rub": 12683672
+    }
+  },
+  "by_topic": {
+    "Без тематики": {
+      "businesses": 65,
+      "checkout_enabled": 23,
+      "payment_enabled": 0,
+      "with_orders": 1,
+      "orders": 4,
+      "gmv_rub": 3100,
+      "product_views": 13,
+      "card_opens_from_content": 0,
+      "ad_spend_rub": 0
+    },
+    "Бизнес и работа": {
+      "businesses": 436,
+      "checkout_enabled": 240,
+      "payment_enabled": 10,
+      "with_orders": 6,
+      "orders": 21,
+      "gmv_rub": 16720,
+      "product_views": 188123,
+      "card_opens_from_content": 294,
+      "ad_spend_rub": 4313013
+    },
+    "Благотворительность": {
+      "businesses": 13,
+      "checkout_enabled": 8,
+      "payment_enabled": 0,
+      "with_orders": 0,
+      "orders": 0,
+      "gmv_rub": 0,
+      "product_views": 0,
+      "card_opens_from_content": 0,
+      "ad_spend_rub": 33000
+    },
+    "Город и местная жизнь": {
+      "businesses": 20,
+      "checkout_enabled": 12,
+      "payment_enabled": 0,
+      "with_orders": 0,
+      "orders": 0,
+      "gmv_rub": 0,
+      "product_views": 8110,
+      "card_opens_from_content": 1,
+      "ad_spend_rub": 57000
+    },
+    "Дом и ремонт": {
+      "businesses": 744,
+      "checkout_enabled": 465,
+      "payment_enabled": 25,
+      "with_orders": 12,
+      "orders": 58,
+      "gmv_rub": 424193,
+      "product_views": 37636,
+      "card_opens_from_content": 116,
+      "ad_spend_rub": 8177400
+    },
+    "Другое": {
+      "businesses": 60,
+      "checkout_enabled": 48,
+      "payment_enabled": 0,
+      "with_orders": 1,
+      "orders": 4,
+      "gmv_rub": 0,
+      "product_views": 76,
+      "card_opens_from_content": 0,
+      "ad_spend_rub": 661000
+    },
+    "Животные": {
+      "businesses": 187,
+      "checkout_enabled": 118,
+      "payment_enabled": 3,
+      "with_orders": 7,
+      "orders": 24,
+      "gmv_rub": 90360,
+      "product_views": 254293,
+      "card_opens_from_content": 206,
+      "ad_spend_rub": 500000
+    },
+    "Игры": {
+      "businesses": 82,
+      "checkout_enabled": 43,
+      "payment_enabled": 2,
+      "with_orders": 4,
+      "orders": 550,
+      "gmv_rub": 362320,
+      "product_views": 17437,
+      "card_opens_from_content": 55,
+      "ad_spend_rub": 169700
+    },
+    "Кино и сериалы": {
+      "businesses": 19,
+      "checkout_enabled": 8,
+      "payment_enabled": 0,
+      "with_orders": 0,
+      "orders": 0,
+      "gmv_rub": 0,
+      "product_views": 0,
+      "card_opens_from_content": 0,
+      "ad_spend_rub": 0
+    },
+    "Красота и здоровье": {
+      "businesses": 1703,
+      "checkout_enabled": 824,
+      "payment_enabled": 22,
+      "with_orders": 13,
+      "orders": 57,
+      "gmv_rub": 435010,
+      "product_views": 541264,
+      "card_opens_from_content": 1226,
+      "ad_spend_rub": 5040563
+    },
+    "Кулинария и еда": {
+      "businesses": 837,
+      "checkout_enabled": 559,
+      "payment_enabled": 21,
+      "with_orders": 66,
+      "orders": 1187,
+      "gmv_rub": 2405730,
+      "product_views": 220958,
+      "card_opens_from_content": 914,
+      "ad_spend_rub": 4282200
+    },
+    "Культура и искусство": {
+      "businesses": 157,
+      "checkout_enabled": 115,
+      "payment_enabled": 6,
+      "with_orders": 4,
+      "orders": 5,
+      "gmv_rub": 33990,
+      "product_views": 62665,
+      "card_opens_from_content": 104,
+      "ad_spend_rub": 295900
+    },
+    "Литература": {
+      "businesses": 33,
+      "checkout_enabled": 16,
+      "payment_enabled": 0,
+      "with_orders": 3,
+      "orders": 31,
+      "gmv_rub": 37000,
+      "product_views": 5190,
+      "card_opens_from_content": 14,
+      "ad_spend_rub": 0
+    },
+    "Личный блог": {
+      "businesses": 99,
+      "checkout_enabled": 67,
+      "payment_enabled": 1,
+      "with_orders": 1,
+      "orders": 2,
+      "gmv_rub": 0,
+      "product_views": 1543352,
+      "card_opens_from_content": 14584,
+      "ad_spend_rub": 33350
+    },
+    "Медицина": {
+      "businesses": 198,
+      "checkout_enabled": 80,
+      "payment_enabled": 1,
+      "with_orders": 1,
+      "orders": 1,
+      "gmv_rub": 32500,
+      "product_views": 34369,
+      "card_opens_from_content": 66,
+      "ad_spend_rub": 2154039
+    },
+    "Мероприятия": {
+      "businesses": 1,
+      "checkout_enabled": 1,
+      "payment_enabled": 0,
+      "with_orders": 0,
+      "orders": 0,
+      "gmv_rub": 0,
+      "product_views": 0,
+      "card_opens_from_content": 0,
+      "ad_spend_rub": 0
+    },
+    "Мода и стиль": {
+      "businesses": 460,
+      "checkout_enabled": 325,
+      "payment_enabled": 18,
+      "with_orders": 21,
+      "orders": 154,
+      "gmv_rub": 583861,
+      "product_views": 4434710,
+      "card_opens_from_content": 8949,
+      "ad_spend_rub": 22503453
+    },
+    "Музыка": {
+      "businesses": 95,
+      "checkout_enabled": 48,
+      "payment_enabled": 6,
+      "with_orders": 4,
+      "orders": 26,
+      "gmv_rub": 110950,
+      "product_views": 36036,
+      "card_opens_from_content": 156,
+      "ad_spend_rub": 191200
+    },
+    "Наука и история": {
+      "businesses": 9,
+      "checkout_enabled": 3,
+      "payment_enabled": 2,
+      "with_orders": 0,
+      "orders": 0,
+      "gmv_rub": 0,
+      "product_views": 893,
+      "card_opens_from_content": 3,
+      "ad_spend_rub": 0
+    },
+    "Недвижимость": {
+      "businesses": 119,
+      "checkout_enabled": 81,
+      "payment_enabled": 4,
+      "with_orders": 1,
+      "orders": 1,
+      "gmv_rub": 15000,
+      "product_views": 17233,
+      "card_opens_from_content": 78,
+      "ad_spend_rub": 1936000
+    },
+    "Образование": {
+      "businesses": 537,
+      "checkout_enabled": 274,
+      "payment_enabled": 15,
+      "with_orders": 19,
+      "orders": 337,
+      "gmv_rub": 631710,
+      "product_views": 2404136,
+      "card_opens_from_content": 8147,
+      "ad_spend_rub": 11705913
+    },
+    "Общество и политика": {
+      "businesses": 30,
+      "checkout_enabled": 14,
+      "payment_enabled": 1,
+      "with_orders": 0,
+      "orders": 0,
+      "gmv_rub": 0,
+      "product_views": 29213,
+      "card_opens_from_content": 30,
+      "ad_spend_rub": 25000
+    },
+    "Объединения людей": {
+      "businesses": 29,
+      "checkout_enabled": 13,
+      "payment_enabled": 0,
+      "with_orders": 0,
+      "orders": 0,
+      "gmv_rub": 0,
+      "product_views": 10726,
+      "card_opens_from_content": 9,
+      "ad_spend_rub": 134000
+    },
+    "Объявления": {
+      "businesses": 82,
+      "checkout_enabled": 37,
+      "payment_enabled": 3,
+      "with_orders": 0,
+      "orders": 0,
+      "gmv_rub": 0,
+      "product_views": 28586,
+      "card_opens_from_content": 0,
+      "ad_spend_rub": 258900
+    },
+    "Охота и рыбалка": {
+      "businesses": 29,
+      "checkout_enabled": 20,
+      "payment_enabled": 2,
+      "with_orders": 3,
+      "orders": 5,
+      "gmv_rub": 23900,
+      "product_views": 11039,
+      "card_opens_from_content": 12,
+      "ad_spend_rub": 13000
+    },
+    "Психология и отношения": {
+      "businesses": 115,
+      "checkout_enabled": 64,
+      "payment_enabled": 3,
+      "with_orders": 0,
+      "orders": 0,
+      "gmv_rub": 0,
+      "product_views": 5039,
+      "card_opens_from_content": 14,
+      "ad_spend_rub": 621900
+    },
+    "Путешествия и отдых": {
+      "businesses": 416,
+      "checkout_enabled": 253,
+      "payment_enabled": 9,
+      "with_orders": 8,
+      "orders": 8,
+      "gmv_rub": 54640,
+      "product_views": 1601988,
+      "card_opens_from_content": 2176,
+      "ad_spend_rub": 1845120
+    },
+    "Развлечения и хобби": {
+      "businesses": 328,
+      "checkout_enabled": 225,
+      "payment_enabled": 9,
+      "with_orders": 17,
+      "orders": 55,
+      "gmv_rub": 203543,
+      "product_views": 1485302,
+      "card_opens_from_content": 895,
+      "ad_spend_rub": 1839313
+    },
+    "СМИ": {
+      "businesses": 13,
+      "checkout_enabled": 8,
+      "payment_enabled": 0,
+      "with_orders": 0,
+      "orders": 0,
+      "gmv_rub": 0,
+      "product_views": 0,
+      "card_opens_from_content": 0,
+      "ad_spend_rub": 0
+    },
+    "Сад и огород": {
+      "businesses": 59,
+      "checkout_enabled": 47,
+      "payment_enabled": 6,
+      "with_orders": 2,
+      "orders": 18,
+      "gmv_rub": 6340,
+      "product_views": 1886,
+      "card_opens_from_content": 4,
+      "ad_spend_rub": 343600
+    },
+    "Семья и дети": {
+      "businesses": 190,
+      "checkout_enabled": 140,
+      "payment_enabled": 12,
+      "with_orders": 8,
+      "orders": 31,
+      "gmv_rub": 38460,
+      "product_views": 394713,
+      "card_opens_from_content": 158,
+      "ad_spend_rub": 582010
+    },
+    "Спорт": {
+      "businesses": 340,
+      "checkout_enabled": 171,
+      "payment_enabled": 8,
+      "with_orders": 7,
+      "orders": 16,
+      "gmv_rub": 69770,
+      "product_views": 2412831,
+      "card_opens_from_content": 6002,
+      "ad_spend_rub": 2575200
+    },
+    "Танцы": {
+      "businesses": 98,
+      "checkout_enabled": 38,
+      "payment_enabled": 3,
+      "with_orders": 1,
+      "orders": 2,
+      "gmv_rub": 1000,
+      "product_views": 57681,
+      "card_opens_from_content": 89,
+      "ad_spend_rub": 712000
+    },
+    "Творчество и хендмейд": {
+      "businesses": 538,
+      "checkout_enabled": 361,
+      "payment_enabled": 23,
+      "with_orders": 28,
+      "orders": 339,
+      "gmv_rub": 291680,
+      "product_views": 1526139,
+      "card_opens_from_content": 2263,
+      "ad_spend_rub": 5036790
+    },
+    "Технологии": {
+      "businesses": 122,
+      "checkout_enabled": 67,
+      "payment_enabled": 2,
+      "with_orders": 3,
+      "orders": 17,
+      "gmv_rub": 1167710,
+      "product_views": 24793,
+      "card_opens_from_content": 16,
+      "ad_spend_rub": 2717000
+    },
+    "Товары и магазины": {
+      "businesses": 405,
+      "checkout_enabled": 324,
+      "payment_enabled": 22,
+      "with_orders": 40,
+      "orders": 338,
+      "gmv_rub": 1587270,
+      "product_views": 468020,
+      "card_opens_from_content": 1281,
+      "ad_spend_rub": 5782804
+    },
+    "Транспорт": {
+      "businesses": 521,
+      "checkout_enabled": 296,
+      "payment_enabled": 11,
+      "with_orders": 14,
+      "orders": 176,
+      "gmv_rub": 1229470,
+      "product_views": 60823,
+      "card_opens_from_content": 193,
+      "ad_spend_rub": 5215946
+    },
+    "Услуги": {
+      "businesses": 204,
+      "checkout_enabled": 124,
+      "payment_enabled": 0,
+      "with_orders": 1,
+      "orders": 7,
+      "gmv_rub": 104000,
+      "product_views": 393166,
+      "card_opens_from_content": 4993,
+      "ad_spend_rub": 2048000
+    },
+    "Фанаты и персоны": {
+      "businesses": 10,
+      "checkout_enabled": 8,
+      "payment_enabled": 1,
+      "with_orders": 0,
+      "orders": 0,
+      "gmv_rub": 0,
+      "product_views": 163,
+      "card_opens_from_content": 0,
+      "ad_spend_rub": 18000
+    },
+    "Финансы": {
+      "businesses": 19,
+      "checkout_enabled": 10,
+      "payment_enabled": 1,
+      "with_orders": 0,
+      "orders": 0,
+      "gmv_rub": 0,
+      "product_views": 0,
+      "card_opens_from_content": 0,
+      "ad_spend_rub": 0
+    },
+    "Фотография": {
+      "businesses": 319,
+      "checkout_enabled": 149,
+      "payment_enabled": 3,
+      "with_orders": 2,
+      "orders": 4,
+      "gmv_rub": 12800,
+      "product_views": 48082,
+      "card_opens_from_content": 19,
+      "ad_spend_rub": 541100
+    },
+    "Юмор": {
+      "businesses": 13,
+      "checkout_enabled": 10,
+      "payment_enabled": 0,
+      "with_orders": 0,
+      "orders": 0,
+      "gmv_rub": 0,
+      "product_views": 25,
+      "card_opens_from_content": 1,
+      "ad_spend_rub": 0
+    }
+  },
+  "by_checkout": {
+    "0": {
+      "businesses": 4017,
+      "checkout_enabled": 0,
+      "payment_enabled": 39,
+      "with_orders": 14,
+      "orders": 45,
+      "gmv_rub": 453700,
+      "product_views": 8367005,
+      "card_opens_from_content": 26830,
+      "ad_spend_rub": 31007211
+    },
+    "1": {
+      "businesses": 5737,
+      "checkout_enabled": 5737,
+      "payment_enabled": 216,
+      "with_orders": 284,
+      "orders": 3433,
+      "gmv_rub": 9519327,
+      "product_views": 9999704,
+      "card_opens_from_content": 26238,
+      "ad_spend_rub": 61356203
+    }
+  },
+  "candidate_segments": {
+    "active_product_catalog": {
+      "businesses": 3961,
+      "checkout_enabled": 3641,
+      "payment_enabled": 213,
+      "with_orders": 285,
+      "orders": 3458,
+      "gmv_rub": 9865067,
+      "product_views": 9272605,
+      "card_opens_from_content": 21690,
+      "ad_spend_rub": 59820442
+    },
+    "catalog_and_product_content": {
+      "businesses": 1117,
+      "checkout_enabled": 989,
+      "payment_enabled": 75,
+      "with_orders": 151,
+      "orders": 2003,
+      "gmv_rub": 5823863,
+      "product_views": 9272605,
+      "card_opens_from_content": 21652,
+      "ad_spend_rub": 12742464
+    },
+    "catalog_content_checkout_off": {
+      "businesses": 128,
+      "checkout_enabled": 0,
+      "payment_enabled": 11,
+      "with_orders": 5,
+      "orders": 24,
+      "gmv_rub": 52670,
+      "product_views": 1845416,
+      "card_opens_from_content": 2236,
+      "ad_spend_rub": 1671152
+    },
+    "catalog_content_checkout_on": {
+      "businesses": 989,
+      "checkout_enabled": 989,
+      "payment_enabled": 64,
+      "with_orders": 146,
+      "orders": 1979,
+      "gmv_rub": 5771193,
+      "product_views": 7427189,
+      "card_opens_from_content": 19416,
+      "ad_spend_rub": 11071312
+    },
+    "catalog_content_checkout_on_payment_off": {
+      "businesses": 925,
+      "checkout_enabled": 925,
+      "payment_enabled": 0,
+      "with_orders": 129,
+      "orders": 1700,
+      "gmv_rub": 4878623,
+      "product_views": 4609456,
+      "card_opens_from_content": 11596,
+      "ad_spend_rub": 10158812
+    }
+  },
+  "consistency": [
+    {
+      "metric": "Показы товаров: Маркет Вконтакте",
+      "daily_sum": 4777750023,
+      "summary": 4777750023,
+      "delta": 0
+    },
+    {
+      "metric": "Показы товаров: Партнёр 1",
+      "daily_sum": 5729628790,
+      "summary": 5729628790,
+      "delta": 0
+    },
+    {
+      "metric": "Открытия карточки: Маркет Вконтакте",
+      "daily_sum": 193512461,
+      "summary": 193512461,
+      "delta": 0
+    },
+    {
+      "metric": "Открытия карточки: Партнёр 1",
+      "daily_sum": 86882822,
+      "summary": 86882822,
+      "delta": 0
+    },
+    {
+      "metric": "Заказы: Маркет Вконтакте",
+      "daily_sum": 413740,
+      "summary": 413740,
+      "delta": 0
+    },
+    {
+      "metric": "Заказы: Партнёр 1",
+      "daily_sum": 4927525,
+      "summary": 4927525,
+      "delta": 0
+    },
+    {
+      "metric": "Оплаченные заказы: Маркет Вконтакте",
+      "daily_sum": 4903,
+      "summary": 4903,
+      "delta": 0
+    },
+    {
+      "metric": "GMV, ₽: Маркет Вконтакте",
+      "daily_sum": 1564546740,
+      "summary": 1564546740,
+      "delta": 0
+    },
+    {
+      "metric": "GMV, ₽: Партнёр 1",
+      "daily_sum": 5119514684,
+      "summary": 5119514685,
+      "delta": -1
+    }
+  ],
+  "anomalies": {
+    "orders_with_checkout_off": 14,
+    "orders_with_payment_off": 268,
+    "gmv_with_zero_orders": 0
+  },
+  "limits": [
+    "Synthetic data, September 2026 only.",
+    "No business ID in aggregate market sheets: do not join them to businesses.",
+    "Daily distinct buyers cannot be summed into monthly unique buyers.",
+    "Enabled flags are a snapshot, not adoption dates.",
+    "No causal interpretation of checkout subgroup differences."
+  ]
+}

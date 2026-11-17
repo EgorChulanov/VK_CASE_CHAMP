@@ -1,0 +1,664 @@
+{
+  "within_audience_segments": [
+    {
+      "audience": "до 1 тыс.",
+      "content": false,
+      "businesses": 1648,
+      "selling": 39,
+      "selling_share": 0.02366504854368932,
+      "orders": 79,
+      "median_subscribers": 250.0
+    },
+    {
+      "audience": "до 1 тыс.",
+      "content": true,
+      "businesses": 622,
+      "selling": 29,
+      "selling_share": 0.04662379421221865,
+      "orders": 80,
+      "median_subscribers": 300.0
+    },
+    {
+      "audience": "1–10 тыс.",
+      "content": false,
+      "businesses": 1059,
+      "selling": 66,
+      "selling_share": 0.06232294617563739,
+      "orders": 629,
+      "median_subscribers": 2400.0
+    },
+    {
+      "audience": "1–10 тыс.",
+      "content": true,
+      "businesses": 396,
+      "selling": 84,
+      "selling_share": 0.21212121212121213,
+      "orders": 905,
+      "median_subscribers": 2500.0
+    },
+    {
+      "audience": "10–100 тыс.",
+      "content": false,
+      "businesses": 132,
+      "selling": 25,
+      "selling_share": 0.1893939393939394,
+      "orders": 707,
+      "median_subscribers": 18000.0
+    },
+    {
+      "audience": "10–100 тыс.",
+      "content": true,
+      "businesses": 97,
+      "selling": 37,
+      "selling_share": 0.38144329896907214,
+      "orders": 964,
+      "median_subscribers": 18000.0
+    },
+    {
+      "audience": "100 тыс.+",
+      "content": false,
+      "businesses": 5,
+      "selling": 4,
+      "selling_share": 0.8,
+      "orders": 40,
+      "median_subscribers": 130000.0
+    },
+    {
+      "audience": "100 тыс.+",
+      "content": true,
+      "businesses": 2,
+      "selling": 1,
+      "selling_share": 0.5,
+      "orders": 54,
+      "median_subscribers": 250000.0
+    }
+  ],
+  "topics_active_catalog": [
+    {
+      "topic": "Кулинария и еда",
+      "businesses": 470,
+      "selling": 65,
+      "orders": 1186,
+      "gmv": 2405130.0
+    },
+    {
+      "topic": "Игры",
+      "businesses": 23,
+      "selling": 3,
+      "orders": 549,
+      "gmv": 362320.0
+    },
+    {
+      "topic": "Образование",
+      "businesses": 204,
+      "selling": 19,
+      "orders": 337,
+      "gmv": 631710.0
+    },
+    {
+      "topic": "Товары и магазины",
+      "businesses": 263,
+      "selling": 39,
+      "orders": 337,
+      "gmv": 1587020.0
+    },
+    {
+      "topic": "Творчество и хендмейд",
+      "businesses": 293,
+      "selling": 26,
+      "orders": 331,
+      "gmv": 263090.0
+    },
+    {
+      "topic": "Транспорт",
+      "businesses": 206,
+      "selling": 13,
+      "orders": 175,
+      "gmv": 1222410.0
+    },
+    {
+      "topic": "Мода и стиль",
+      "businesses": 257,
+      "selling": 19,
+      "orders": 152,
+      "gmv": 574731.0
+    },
+    {
+      "topic": "Дом и ремонт",
+      "businesses": 368,
+      "selling": 10,
+      "orders": 56,
+      "gmv": 372373.0
+    },
+    {
+      "topic": "Красота и здоровье",
+      "businesses": 410,
+      "selling": 12,
+      "orders": 56,
+      "gmv": 432130.0
+    },
+    {
+      "topic": "Развлечения и хобби",
+      "businesses": 170,
+      "selling": 17,
+      "orders": 55,
+      "gmv": 203543.0
+    },
+    {
+      "topic": "Литература",
+      "businesses": 16,
+      "selling": 3,
+      "orders": 31,
+      "gmv": 37000.0
+    },
+    {
+      "topic": "Семья и дети",
+      "businesses": 108,
+      "selling": 8,
+      "orders": 31,
+      "gmv": 38460.0
+    },
+    {
+      "topic": "Музыка",
+      "businesses": 31,
+      "selling": 4,
+      "orders": 26,
+      "gmv": 110950.0
+    },
+    {
+      "topic": "Животные",
+      "businesses": 76,
+      "selling": 7,
+      "orders": 24,
+      "gmv": 90360.0
+    },
+    {
+      "topic": "Бизнес и работа",
+      "businesses": 159,
+      "selling": 6,
+      "orders": 21,
+      "gmv": 16720.0
+    },
+    {
+      "topic": "Сад и огород",
+      "businesses": 39,
+      "selling": 2,
+      "orders": 18,
+      "gmv": 6340.0
+    },
+    {
+      "topic": "Технологии",
+      "businesses": 55,
+      "selling": 3,
+      "orders": 17,
+      "gmv": 1167710.0
+    },
+    {
+      "topic": "Спорт",
+      "businesses": 110,
+      "selling": 6,
+      "orders": 14,
+      "gmv": 62770.0
+    },
+    {
+      "topic": "Путешествия и отдых",
+      "businesses": 193,
+      "selling": 7,
+      "orders": 7,
+      "gmv": 54010.0
+    },
+    {
+      "topic": "Услуги",
+      "businesses": 52,
+      "selling": 1,
+      "orders": 7,
+      "gmv": 104000.0
+    },
+    {
+      "topic": "Культура и искусство",
+      "businesses": 98,
+      "selling": 4,
+      "orders": 5,
+      "gmv": 33990.0
+    },
+    {
+      "topic": "Охота и рыбалка",
+      "businesses": 16,
+      "selling": 3,
+      "orders": 5,
+      "gmv": 23900.0
+    },
+    {
+      "topic": "Без тематики",
+      "businesses": 10,
+      "selling": 1,
+      "orders": 4,
+      "gmv": 3100.0
+    },
+    {
+      "topic": "Другое",
+      "businesses": 19,
+      "selling": 1,
+      "orders": 4,
+      "gmv": 0.0
+    },
+    {
+      "topic": "Фотография",
+      "businesses": 92,
+      "selling": 2,
+      "orders": 4,
+      "gmv": 12800.0
+    },
+    {
+      "topic": "Личный блог",
+      "businesses": 15,
+      "selling": 1,
+      "orders": 2,
+      "gmv": 0.0
+    },
+    {
+      "topic": "Танцы",
+      "businesses": 21,
+      "selling": 1,
+      "orders": 2,
+      "gmv": 1000.0
+    },
+    {
+      "topic": "Медицина",
+      "businesses": 39,
+      "selling": 1,
+      "orders": 1,
+      "gmv": 32500.0
+    },
+    {
+      "topic": "Недвижимость",
+      "businesses": 60,
+      "selling": 1,
+      "orders": 1,
+      "gmv": 15000.0
+    },
+    {
+      "topic": "Благотворительность",
+      "businesses": 2,
+      "selling": 0,
+      "orders": 0,
+      "gmv": 0.0
+    },
+    {
+      "topic": "Город и местная жизнь",
+      "businesses": 3,
+      "selling": 0,
+      "orders": 0,
+      "gmv": 0.0
+    },
+    {
+      "topic": "Кино и сериалы",
+      "businesses": 5,
+      "selling": 0,
+      "orders": 0,
+      "gmv": 0.0
+    },
+    {
+      "topic": "Наука и история",
+      "businesses": 4,
+      "selling": 0,
+      "orders": 0,
+      "gmv": 0.0
+    },
+    {
+      "topic": "Общество и политика",
+      "businesses": 4,
+      "selling": 0,
+      "orders": 0,
+      "gmv": 0.0
+    },
+    {
+      "topic": "Объединения людей",
+      "businesses": 4,
+      "selling": 0,
+      "orders": 0,
+      "gmv": 0.0
+    },
+    {
+      "topic": "Объявления",
+      "businesses": 20,
+      "selling": 0,
+      "orders": 0,
+      "gmv": 0.0
+    },
+    {
+      "topic": "Психология и отношения",
+      "businesses": 26,
+      "selling": 0,
+      "orders": 0,
+      "gmv": 0.0
+    },
+    {
+      "topic": "СМИ",
+      "businesses": 5,
+      "selling": 0,
+      "orders": 0,
+      "gmv": 0.0
+    },
+    {
+      "topic": "Фанаты и персоны",
+      "businesses": 5,
+      "selling": 0,
+      "orders": 0,
+      "gmv": 0.0
+    },
+    {
+      "topic": "Финансы",
+      "businesses": 7,
+      "selling": 0,
+      "orders": 0,
+      "gmv": 0.0
+    },
+    {
+      "topic": "Юмор",
+      "businesses": 3,
+      "selling": 0,
+      "orders": 0,
+      "gmv": 0.0
+    }
+  ],
+  "aggregate_reconciliations": [
+    {
+      "sheet": "Маркет Вконтакте — категории",
+      "metric": "Открытия карточки: Маркет Вконтакте",
+      "total": 193472512.0,
+      "overall": 193512461.0,
+      "delta": -39949.0,
+      "missing_cells": 0
+    },
+    {
+      "sheet": "Маркет Вконтакте — категории",
+      "metric": "Заказы: Маркет Вконтакте",
+      "total": 435285.0,
+      "overall": 413740.0,
+      "delta": 21545.0,
+      "missing_cells": 0
+    },
+    {
+      "sheet": "Маркет Вконтакте — категории",
+      "metric": "Открытия карточки: Партнёр 1",
+      "total": 86880602.0,
+      "overall": 86882822.0,
+      "delta": -2220.0,
+      "missing_cells": 0
+    },
+    {
+      "sheet": "Маркет Вконтакте — категории",
+      "metric": "Заказы: Партнёр 1",
+      "total": 4557517.0,
+      "overall": 4927525.0,
+      "delta": -370008.0,
+      "missing_cells": 0
+    },
+    {
+      "sheet": "Покупатели",
+      "metric": "Покупатели: Маркет Вконтакте",
+      "total": 295850.0,
+      "overall": 296148.0,
+      "delta": -298.0,
+      "missing_cells": 2
+    },
+    {
+      "sheet": "Покупатели",
+      "metric": "Заказы: Маркет Вконтакте",
+      "total": 413334.0,
+      "overall": 413740.0,
+      "delta": -406.0,
+      "missing_cells": 2
+    },
+    {
+      "sheet": "Покупатели",
+      "metric": "Покупатели: Партнёр 1",
+      "total": 2901162.0,
+      "overall": 2901334.0,
+      "delta": -172.0,
+      "missing_cells": 0
+    },
+    {
+      "sheet": "Покупатели",
+      "metric": "Заказы: Партнёр 1",
+      "total": 4557253.0,
+      "overall": 4927525.0,
+      "delta": -370272.0,
+      "missing_cells": 0
+    },
+    {
+      "sheet": "Покупатели по регионам",
+      "metric": "Покупатели: Маркет Вконтакте",
+      "total": 295850.0,
+      "overall": 296148.0,
+      "delta": -298.0,
+      "missing_cells": 4
+    },
+    {
+      "sheet": "Покупатели по регионам",
+      "metric": "Заказы: Маркет Вконтакте",
+      "total": 413334.0,
+      "overall": 413740.0,
+      "delta": -406.0,
+      "missing_cells": 4
+    },
+    {
+      "sheet": "Покупатели по регионам",
+      "metric": "Покупатели: Партнёр 1",
+      "total": 2901162.0,
+      "overall": 2901334.0,
+      "delta": -172.0,
+      "missing_cells": 0
+    },
+    {
+      "sheet": "Покупатели по регионам",
+      "metric": "Заказы: Партнёр 1",
+      "total": 4557253.0,
+      "overall": 4927525.0,
+      "delta": -370272.0,
+      "missing_cells": 0
+    }
+  ],
+  "sources": [
+    {
+      "source": "Другое",
+      "vk_opens": 77753037,
+      "vk_share": 0.40179860562054454,
+      "partner_opens": 5380616
+    },
+    {
+      "source": "Витрина магазина",
+      "vk_opens": 75604323,
+      "vk_share": 0.3906948555628157,
+      "partner_opens": 714540
+    },
+    {
+      "source": "Лента",
+      "vk_opens": 18795696,
+      "vk_share": 0.09712912493009947,
+      "partner_opens": 15622386
+    },
+    {
+      "source": "Клипы",
+      "vk_opens": 17239066,
+      "vk_share": 0.08908504346911282,
+      "partner_opens": 64917109
+    },
+    {
+      "source": "Поиск",
+      "vk_opens": 3707521,
+      "vk_share": 0.01915908144023862,
+      "partner_opens": 159788
+    },
+    {
+      "source": "Главная Маркета Вконтакте",
+      "vk_opens": 412818,
+      "vk_share": 0.002133288977188916,
+      "partner_opens": 88383
+    }
+  ],
+  "categories": [
+    {
+      "category": "Гардероб",
+      "opens": 33022954,
+      "orders": 29029,
+      "orders_per_open": 0.0008790552171680341,
+      "partner_opens": 9023244,
+      "partner_orders": 259808
+    },
+    {
+      "category": "Хобби и развлечения",
+      "opens": 32048705,
+      "orders": 110703,
+      "orders_per_open": 0.003454211332407971,
+      "partner_opens": 2474633,
+      "partner_orders": 116999
+    },
+    {
+      "category": "Другое",
+      "opens": 29082926,
+      "orders": 41,
+      "orders_per_open": 1.4097618650888153e-06,
+      "partner_opens": 160,
+      "partner_orders": 0
+    },
+    {
+      "category": "Дом и дача",
+      "opens": 26162824,
+      "orders": 35976,
+      "orders_per_open": 0.0013750809163414468,
+      "partner_opens": 24528887,
+      "partner_orders": 1413965
+    },
+    {
+      "category": "Продукты питания",
+      "opens": 20393319,
+      "orders": 195355,
+      "orders_per_open": 0.009579362731490642,
+      "partner_opens": 2488477,
+      "partner_orders": 170556
+    },
+    {
+      "category": "Красота и здоровье",
+      "opens": 11345073,
+      "orders": 13022,
+      "orders_per_open": 0.0011478110365618626,
+      "partner_opens": 14113274,
+      "partner_orders": 1240324
+    },
+    {
+      "category": "Транспорт",
+      "opens": 8590002,
+      "orders": 8254,
+      "orders_per_open": 0.0009608845259873048,
+      "partner_opens": 4569160,
+      "partner_orders": 264510
+    },
+    {
+      "category": "Электроника",
+      "opens": 5768728,
+      "orders": 4519,
+      "orders_per_open": 0.0007833616006856278,
+      "partner_opens": 2786808,
+      "partner_orders": 30616
+    },
+    {
+      "category": "Спорт и отдых",
+      "opens": 5632947,
+      "orders": 7781,
+      "orders_per_open": 0.0013813373355012926,
+      "partner_opens": 4092740,
+      "partner_orders": 179554
+    },
+    {
+      "category": "Детские товары",
+      "opens": 4859516,
+      "orders": 10546,
+      "orders_per_open": 0.002170174972157721,
+      "partner_opens": 2478504,
+      "partner_orders": 102803
+    },
+    {
+      "category": "Ремонт и строительство",
+      "opens": 4823519,
+      "orders": 1854,
+      "orders_per_open": 0.00038436668332808473,
+      "partner_opens": 9737416,
+      "partner_orders": 195020
+    },
+    {
+      "category": "Недвижимость",
+      "opens": 2775277,
+      "orders": 1199,
+      "orders_per_open": 0.00043202894702042355,
+      "partner_opens": 732,
+      "partner_orders": 2
+    },
+    {
+      "category": "Бытовая техника",
+      "opens": 2675368,
+      "orders": 1388,
+      "orders_per_open": 0.0005188071323272163,
+      "partner_opens": 4198701,
+      "partner_orders": 113668
+    },
+    {
+      "category": "Товары для животных",
+      "opens": 2167931,
+      "orders": 8600,
+      "orders_per_open": 0.00396691592121705,
+      "partner_opens": 1793132,
+      "partner_orders": 146558
+    },
+    {
+      "category": "Все товары",
+      "opens": 1441409,
+      "orders": 205,
+      "orders_per_open": 0.00014222195088278207,
+      "partner_opens": 3098084,
+      "partner_orders": 138949
+    },
+    {
+      "category": "Канцелярские товары",
+      "opens": 1314960,
+      "orders": 5548,
+      "orders_per_open": 0.004219139745695687,
+      "partner_opens": 1149841,
+      "partner_orders": 62971
+    },
+    {
+      "category": "Товары для геймеров",
+      "opens": 1173700,
+      "orders": 1106,
+      "orders_per_open": 0.0009423191616256283,
+      "partner_opens": 346809,
+      "partner_orders": 3396
+    },
+    {
+      "category": "Не определена",
+      "opens": 193354,
+      "orders": 159,
+      "orders_per_open": 0.0008223258893014885,
+      "partner_opens": 0,
+      "partner_orders": 117818
+    }
+  ],
+  "business_order_concentration": {
+    "1": 0.15612420931569868,
+    "10": 0.5399654974123059,
+    "50": 0.827774583093732,
+    "100": 0.9120184013801035
+  },
+  "zero_medians": {
+    "orders": 0.0,
+    "gmv": 0.0
+  },
+  "buyer_female_share_visible": 0.7280581375697144,
+  "partner_unknown_region_share_visible": 0.3671266892369333,
+  "notes": [
+    "Subgroup associations are descriptive, not causal.",
+    "Category orders per open is an aggregate ratio, not a user-level conversion.",
+    "Suppressed groups and missing demographic/geographic attribution must remain visible."
+  ]
+}

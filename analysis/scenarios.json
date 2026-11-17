@@ -1,0 +1,507 @@
+{
+  "input_status": "All commercial inputs are planning assumptions, not dataset measurements. Historical baseline is descriptive, future control rate unknown.",
+  "investment_rub": 4800000,
+  "fixed_monthly_rub": 400000,
+  "support_per_active_month_rub": 60,
+  "contribution_margin_assumption": 0.65,
+  "cost_breakdown_rub": {
+    "product_engineering_9_person_months_at_350000": 3150000,
+    "analytics_instrumentation": 600000,
+    "research_and_seller_onboarding": 450000,
+    "infrastructure": 300000,
+    "reserve": 300000
+  },
+  "scenarios": [
+    {
+      "scenario": "Осторожный",
+      "eligible_assumption": 10000,
+      "adoption_assumption": 0.2,
+      "incremental_advertiser_share_assumption": 0.15,
+      "incremental_spend_assumption_rub": 1000,
+      "active": 2000.0,
+      "incremental_revenue_monthly": 300000.0,
+      "contribution_per_active_rub": 37.5,
+      "net_monthly_steady": -325000.0,
+      "breakeven_active": 10667,
+      "payback_month_after_launch": null,
+      "cash_24_months": -12787500.0,
+      "months": [
+        {
+          "month_after_launch": 1,
+          "active": 333.3333333333333,
+          "net_cash": -387500.0,
+          "cumulative_cash": -5187500.0
+        },
+        {
+          "month_after_launch": 2,
+          "active": 666.6666666666666,
+          "net_cash": -375000.0,
+          "cumulative_cash": -5562500.0
+        },
+        {
+          "month_after_launch": 3,
+          "active": 1000.0,
+          "net_cash": -362500.0,
+          "cumulative_cash": -5925000.0
+        },
+        {
+          "month_after_launch": 4,
+          "active": 1333.3333333333333,
+          "net_cash": -350000.0,
+          "cumulative_cash": -6275000.0
+        },
+        {
+          "month_after_launch": 5,
+          "active": 1666.6666666666667,
+          "net_cash": -337500.0,
+          "cumulative_cash": -6612500.0
+        },
+        {
+          "month_after_launch": 6,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -6937500.0
+        },
+        {
+          "month_after_launch": 7,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -7262500.0
+        },
+        {
+          "month_after_launch": 8,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -7587500.0
+        },
+        {
+          "month_after_launch": 9,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -7912500.0
+        },
+        {
+          "month_after_launch": 10,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -8237500.0
+        },
+        {
+          "month_after_launch": 11,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -8562500.0
+        },
+        {
+          "month_after_launch": 12,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -8887500.0
+        },
+        {
+          "month_after_launch": 13,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -9212500.0
+        },
+        {
+          "month_after_launch": 14,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -9537500.0
+        },
+        {
+          "month_after_launch": 15,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -9862500.0
+        },
+        {
+          "month_after_launch": 16,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -10187500.0
+        },
+        {
+          "month_after_launch": 17,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -10512500.0
+        },
+        {
+          "month_after_launch": 18,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -10837500.0
+        },
+        {
+          "month_after_launch": 19,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -11162500.0
+        },
+        {
+          "month_after_launch": 20,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -11487500.0
+        },
+        {
+          "month_after_launch": 21,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -11812500.0
+        },
+        {
+          "month_after_launch": 22,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -12137500.0
+        },
+        {
+          "month_after_launch": 23,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -12462500.0
+        },
+        {
+          "month_after_launch": 24,
+          "active": 2000.0,
+          "net_cash": -325000.0,
+          "cumulative_cash": -12787500.0
+        }
+      ]
+    },
+    {
+      "scenario": "Базовый",
+      "eligible_assumption": 20000,
+      "adoption_assumption": 0.3,
+      "incremental_advertiser_share_assumption": 0.2,
+      "incremental_spend_assumption_rub": 1500,
+      "active": 6000.0,
+      "incremental_revenue_monthly": 1800000.0,
+      "contribution_per_active_rub": 135.0,
+      "net_monthly_steady": 410000.0,
+      "breakeven_active": 2963,
+      "payback_month_after_launch": 17,
+      "cash_24_months": 3015000.0,
+      "months": [
+        {
+          "month_after_launch": 1,
+          "active": 1000.0,
+          "net_cash": -265000.0,
+          "cumulative_cash": -5065000.0
+        },
+        {
+          "month_after_launch": 2,
+          "active": 2000.0,
+          "net_cash": -130000.0,
+          "cumulative_cash": -5195000.0
+        },
+        {
+          "month_after_launch": 3,
+          "active": 3000.0,
+          "net_cash": 5000.0,
+          "cumulative_cash": -5190000.0
+        },
+        {
+          "month_after_launch": 4,
+          "active": 4000.0,
+          "net_cash": 140000.0,
+          "cumulative_cash": -5050000.0
+        },
+        {
+          "month_after_launch": 5,
+          "active": 5000.0,
+          "net_cash": 275000.0,
+          "cumulative_cash": -4775000.0
+        },
+        {
+          "month_after_launch": 6,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": -4365000.0
+        },
+        {
+          "month_after_launch": 7,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": -3955000.0
+        },
+        {
+          "month_after_launch": 8,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": -3545000.0
+        },
+        {
+          "month_after_launch": 9,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": -3135000.0
+        },
+        {
+          "month_after_launch": 10,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": -2725000.0
+        },
+        {
+          "month_after_launch": 11,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": -2315000.0
+        },
+        {
+          "month_after_launch": 12,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": -1905000.0
+        },
+        {
+          "month_after_launch": 13,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": -1495000.0
+        },
+        {
+          "month_after_launch": 14,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": -1085000.0
+        },
+        {
+          "month_after_launch": 15,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": -675000.0
+        },
+        {
+          "month_after_launch": 16,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": -265000.0
+        },
+        {
+          "month_after_launch": 17,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": 145000.0
+        },
+        {
+          "month_after_launch": 18,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": 555000.0
+        },
+        {
+          "month_after_launch": 19,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": 965000.0
+        },
+        {
+          "month_after_launch": 20,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": 1375000.0
+        },
+        {
+          "month_after_launch": 21,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": 1785000.0
+        },
+        {
+          "month_after_launch": 22,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": 2195000.0
+        },
+        {
+          "month_after_launch": 23,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": 2605000.0
+        },
+        {
+          "month_after_launch": 24,
+          "active": 6000.0,
+          "net_cash": 410000.0,
+          "cumulative_cash": 3015000.0
+        }
+      ]
+    },
+    {
+      "scenario": "Высокий",
+      "eligible_assumption": 40000,
+      "adoption_assumption": 0.35,
+      "incremental_advertiser_share_assumption": 0.25,
+      "incremental_spend_assumption_rub": 1800,
+      "active": 14000.0,
+      "incremental_revenue_monthly": 6300000.0,
+      "contribution_per_active_rub": 232.5,
+      "net_monthly_steady": 2855000.0,
+      "breakeven_active": 1721,
+      "payback_month_after_launch": 5,
+      "cash_24_months": 55582500.0,
+      "months": [
+        {
+          "month_after_launch": 1,
+          "active": 2333.333333333333,
+          "net_cash": 142499.99999999988,
+          "cumulative_cash": -4657500.0
+        },
+        {
+          "month_after_launch": 2,
+          "active": 4666.666666666666,
+          "net_cash": 684999.9999999998,
+          "cumulative_cash": -3972500.0
+        },
+        {
+          "month_after_launch": 3,
+          "active": 7000.0,
+          "net_cash": 1227500.0,
+          "cumulative_cash": -2745000.0
+        },
+        {
+          "month_after_launch": 4,
+          "active": 9333.333333333332,
+          "net_cash": 1769999.9999999995,
+          "cumulative_cash": -975000.0000000005
+        },
+        {
+          "month_after_launch": 5,
+          "active": 11666.666666666668,
+          "net_cash": 2312500.0000000005,
+          "cumulative_cash": 1337500.0
+        },
+        {
+          "month_after_launch": 6,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 4192500.0
+        },
+        {
+          "month_after_launch": 7,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 7047500.0
+        },
+        {
+          "month_after_launch": 8,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 9902500.0
+        },
+        {
+          "month_after_launch": 9,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 12757500.0
+        },
+        {
+          "month_after_launch": 10,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 15612500.0
+        },
+        {
+          "month_after_launch": 11,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 18467500.0
+        },
+        {
+          "month_after_launch": 12,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 21322500.0
+        },
+        {
+          "month_after_launch": 13,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 24177500.0
+        },
+        {
+          "month_after_launch": 14,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 27032500.0
+        },
+        {
+          "month_after_launch": 15,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 29887500.0
+        },
+        {
+          "month_after_launch": 16,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 32742500.0
+        },
+        {
+          "month_after_launch": 17,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 35597500.0
+        },
+        {
+          "month_after_launch": 18,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 38452500.0
+        },
+        {
+          "month_after_launch": 19,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 41307500.0
+        },
+        {
+          "month_after_launch": 20,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 44162500.0
+        },
+        {
+          "month_after_launch": 21,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 47017500.0
+        },
+        {
+          "month_after_launch": 22,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 49872500.0
+        },
+        {
+          "month_after_launch": 23,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 52727500.0
+        },
+        {
+          "month_after_launch": 24,
+          "active": 14000.0,
+          "net_cash": 2855000.0,
+          "cumulative_cash": 55582500.0
+        }
+      ]
+    }
+  ],
+  "experiment": {
+    "historical_selling_share": 0.24543610547667344,
+    "historical_businesses": 493,
+    "historical_selling": 121,
+    "mde_absolute": 0.05,
+    "alpha_two_sided": 0.05,
+    "power": 0.8,
+    "required_per_arm_normal_approximation": 1238,
+    "required_total": 2476,
+    "note": "Independent business-level randomization, no clustering or attrition adjustment. Re-estimate from pre-period and add expected attrition before recruitment."
+  }
+}
