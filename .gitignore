@@ -4,3 +4,6 @@ presentation/renders/
 presentation/DigitalCats_strategy_msk.pdf
 
 .venv/
+
+demo/dist/
+demo/*.sqlite3*

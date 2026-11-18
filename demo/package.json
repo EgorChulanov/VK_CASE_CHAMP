@@ -1,0 +1,19 @@
+{
+  "name": "vk-shop-case",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "python3 -m unittest discover -s tests",
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "@vkontakte/icons": "^3.80.0",
+    "@vkontakte/vkui": "^8.5.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "private": true,
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}

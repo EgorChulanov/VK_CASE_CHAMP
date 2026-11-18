@@ -11,18 +11,20 @@ try {
  const page=await browser.newPage({viewport:{width:1280,height:720},deviceScaleFactor:1});
  await page.goto(pathToFileURL(join(here,'index.html')).href);
  await page.evaluate(()=>document.fonts.ready);
+ const broken=await page.locator('img').evaluateAll(images=>images.filter(image=>!image.complete||!image.naturalWidth).map(image=>image.src));
+ if(broken.length) throw new Error('Missing images: '+broken.join(', '));
  const slides=page.locator('.slide');
  mkdirSync(join(here,'renders'),{recursive:true});
  for(let i=0;i<await slides.count();i++) {
   await slides.nth(i).screenshot({path:join(here,'renders',`${String(i+1).padStart(2,'0')}.png`)});
  }
  const issues=await page.evaluate(()=>[...document.querySelectorAll('.slide')].flatMap((slide,i)=>{
-  const footer=slide.querySelector('footer').getBoundingClientRect();
+  const bound=slide.getBoundingClientRect();
   if(slide.classList.contains('cover')) return [];
-  return [...slide.querySelectorAll('main *')].filter(el=>el.getBoundingClientRect().height>0 && el.getBoundingClientRect().bottom>footer.top-2).map(el=>({slide:i+1,text:el.textContent.slice(0,70),bottom:el.getBoundingClientRect().bottom-slide.getBoundingClientRect().top}));
+  return [...slide.querySelectorAll('main *')].filter(el=>el.getBoundingClientRect().height>0 && (el.getBoundingClientRect().bottom>bound.bottom-10 || el.getBoundingClientRect().right>bound.right-12 || el.getBoundingClientRect().left<bound.left)).map(el=>({slide:i+1,text:el.textContent.slice(0,70),bottom:el.getBoundingClientRect().bottom-slide.getBoundingClientRect().top}));
  }));
  if(issues.length) throw new Error(JSON.stringify(issues));
  await page.pdf({path:out,printBackground:true,preferCSSPageSize:true});
- writeFileSync(join(here,'layout-check.json'),JSON.stringify({slides:await slides.count(),footerOverlaps:issues},null,2));
+ writeFileSync(join(here,'layout-check.json'),JSON.stringify({slides:await slides.count(),outsideContentArea:issues},null,2));
  console.log(JSON.stringify({out,slides:await slides.count(),issues}));
 }finally{await browser.close()}
