@@ -1,0 +1,25 @@
+{
+  "businesses": 493,
+  "orders": 1869,
+  "mean": 3.791075050709939,
+  "sd": 18.48804715655645,
+  "median": 0.0,
+  "selling": 121,
+  "sensitivity": [
+    {
+      "lift": 0.1,
+      "absolute_orders": 0.37910750507099394,
+      "per_arm": 37334
+    },
+    {
+      "lift": 0.2,
+      "absolute_orders": 0.7582150101419879,
+      "per_arm": 9334
+    },
+    {
+      "lift": 0.3,
+      "absolute_orders": 1.1373225152129818,
+      "per_arm": 4149
+    }
+  ]
+}

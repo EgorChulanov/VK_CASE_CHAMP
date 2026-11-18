@@ -1,18 +1,1 @@
-<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Следующий заказ | Демонстрация</title><link rel="stylesheet" href="../presentation/brand.css"><style>
-@font-face{font-family:Onest;src:url(../presentation/fonts/onest-cyrillic-wght-normal.woff2)}*{box-sizing:border-box}body{margin:0;background:#edf3fa;color:#162537;font:17px Onest,Arial,sans-serif}.shell{margin:6vh auto;max-width:850px;padding:20px}.shell header{height:auto;display:flex;align-items:center;justify-content:space-between;padding:15px 0}.shell header img{width:190px}.shell h1{margin:25px 0 10px}.workspace{display:grid;grid-template-columns:1fr 1.4fr;background:white;border-radius:22px;overflow:hidden;margin:23px 0}.productart{height:100%;min-height:240px;border-radius:0}.mug{transform:scale(1.7)}.body{padding:35px}.body h2{font-size:30px;letter-spacing:-.04em}.body p{line-height:1.5}.body button{border:0;font:inherit;cursor:pointer}.shell small{color:#566679}.shell button:focus-visible{outline:3px solid #cb278c;outline-offset:3px}.shell .reset{color:#175fa7;background:none;border:0;cursor:pointer;font:inherit}.shell li{margin:8px 0} @media(max-width:620px){.workspace{grid-template-columns:1fr}.productart{min-height:145px}.body{padding:20px}.shell header img{width:145px}}
-</style><div class="shell"><header><img src="../presentation/assets/brand.jpg" alt="VK Education и ВКонтакте"><small>Макет команды</small></header><h1>Следующий заказ</h1><p>Пройди путь одной кружки из мастерской до покупателя.</p><main class="workspace"><div class="productart"><div class="mug"><i></i></div></div><div class="body" aria-live="polite"><small id="role"></small><h2 id="title"></h2><p id="details"></p><button class="action" id="next"></button></div></main><button class="reset" id="reset">Начать заново</button></div><script>
-const steps=[
-['Продавец / Кабинет сообщества','Укажите способ получения','Кружка «Песок», 1 200 ₽. Цена и наличие заполнены. Для оформления заказа покупателю нужно знать, где забрать товар.','Включить самовывоз'],
-['Продавец / Запись сообщества','Товар готов к публикации','Самовывоз из мастерской доступен. Прикрепите кружку к записи о том, как наносили глазурь.','Опубликовать с товаром'],
-['Покупатель / Лента','Кружка из мастерской','Вы увидели запись с прикреплённым товаром. В карточке сохранится связь с публикацией.','Открыть карточку'],
-['Покупатель / Карточка','Кружка «Песок», 1 200 ₽','Товар в наличии. Самовывоз из мастерской. После оформления заказ появится в кабинете продавца.','Оформить заказ'],
-['Продавец / Заказы','Новый заказ на одну кружку','Кружка заказана. Отметьте выдачу, когда покупатель заберёт товар.','Подтвердить выдачу'],
-['Продавец / Результат','Один заказ выполнен','Путь демонстрационного заказа: публикация → карточка → оформление → выдача. Оплата отдельно не фиксировалась.','Повторить сценарий']
-];
-let index=0;
-const fields=['role','title','details','next'].map(id=>document.getElementById(id));
-function render(){steps[index].forEach((value,i)=>fields[i].textContent=value)}
-fields[3].onclick=()=>{index=(index+1)%steps.length;render()};
-document.getElementById('reset').onclick=()=>{index=0;render()};
-render();
-</script></html>
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Пульт продаж · Мастерская «Тёплый дом»</title><link rel="stylesheet" href="shop.css"><header><b class="vk">vk</b><b>вконтакте</b><span>Сообщества</span><small>Прототип</small></header><div class="shell"><aside><strong>Тёплый дом</strong><small>Мастерская керамики</small><hr><div>Главная</div><div>Сообщения</div><div>Товары</div><div>Заказы</div><div class="selected">Пульт продаж</div></aside><main id="app" aria-live="polite"></main></div><script src="shop.js"></script></html>

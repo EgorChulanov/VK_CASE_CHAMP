@@ -18,8 +18,10 @@ try {
  }
  const issues=await page.evaluate(()=>[...document.querySelectorAll('.slide')].flatMap((slide,i)=>{
   const footer=slide.querySelector('footer').getBoundingClientRect();
-  return [...slide.querySelectorAll('main p,main table,main .note,main .card')].filter(el=>el.getBoundingClientRect().bottom>footer.top-5).map(el=>({slide:i+1,text:el.textContent.slice(0,70),bottom:el.getBoundingClientRect().bottom-slide.getBoundingClientRect().top}));
+  if(slide.classList.contains('cover')) return [];
+  return [...slide.querySelectorAll('main *')].filter(el=>el.getBoundingClientRect().height>0 && el.getBoundingClientRect().bottom>footer.top-2).map(el=>({slide:i+1,text:el.textContent.slice(0,70),bottom:el.getBoundingClientRect().bottom-slide.getBoundingClientRect().top}));
  }));
+ if(issues.length) throw new Error(JSON.stringify(issues));
  await page.pdf({path:out,printBackground:true,preferCSSPageSize:true});
  writeFileSync(join(here,'layout-check.json'),JSON.stringify({slides:await slides.count(),footerOverlaps:issues},null,2));
  console.log(JSON.stringify({out,slides:await slides.count(),issues}));
