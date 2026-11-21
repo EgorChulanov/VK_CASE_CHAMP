@@ -3,7 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 runtime="${VIRTUAL_ENV:-$PWD/.venv}"
 if [[ ! -x "$runtime/bin/python" ]]; then python3 -m venv "$runtime"; fi
-if ! "$runtime/bin/python" -c 'import uvicorn,fastapi,httpx' 2>/dev/null; then
+if ! "$runtime/bin/python" -c 'import uvicorn,fastapi,httpx,PIL' 2>/dev/null; then
   "$runtime/bin/python" -m pip install -r requirements.txt
 fi
 npm ci --no-audit --no-fund

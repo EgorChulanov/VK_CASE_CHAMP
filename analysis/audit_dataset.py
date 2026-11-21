@@ -51,6 +51,8 @@ for daily_name, summary_name, column in [
 product = [r for r in records if r['Число активных товаров в каталоге'] > 0]
 content = [r for r in product if r['Просмотры товарного контента'] > 0]
 result = {
+    'platform_comparison': {key: {'vk':summary[key][0], 'partner':summary[key][1]}
+                            for key in ('Открытия карточки товара','Оформленные заказы','Доля повторных покупателей (2+ заказа), %')},
     'source_filename': source.name,
     'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
     'period': [str(daily[1][0]), str(daily[-1][0])],

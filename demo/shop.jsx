@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   ConfigProvider,
@@ -9,6 +9,9 @@ import {
 } from "@vkontakte/vkui";
 import {
   Icon32LogoVkColor,
+  Icon24HomeOutline,
+  Icon24WriteOutline,
+  Icon24MessageOutline,
   Icon24ShoppingCartOutline,
   Icon24MarketOutline,
   Icon24GraphOutline,
@@ -17,6 +20,15 @@ import {
 } from "@vkontakte/icons";
 import "@vkontakte/vkui/dist/vkui.css";
 import "./shop.css";
+import {
+  Overview,
+  Posts,
+  Feed,
+  Market,
+  Inbox,
+  Conversation,
+  formatShopTime,
+} from "./workbench.jsx";
 
 const rub = (n) => new Intl.NumberFormat("ru-RU").format(n) + " ₽";
 async function api(path, method = "GET", body) {
@@ -61,24 +73,75 @@ function Photo({ p }) {
   return (
     <img
       className={"photo tone" + p.id}
-      src={`/cup-${p.id}.webp`}
+      src={
+        p.image_data
+          ? `data:${p.image_type || "image/webp"};base64,${p.image_data}`
+          : p.id
+            ? `/api/products/${p.id}/photo?v=${p.version}`
+            : "/product-default.svg"
+      }
       alt={p.title}
     />
   );
 }
 function Edit({ product, commit, busy }) {
   const [p, set] = useState({ ...product });
-  const field = (k, v) => set({ ...p, [k]: v });
+  const [photoError, setPhotoError] = useState("");
+  const [reading, setReading] = useState(false);
+  const field = (k, v) => set((old) => ({ ...old, [k]: v }));
+  async function pickPhoto(file) {
+    if (!file) return;
+    setPhotoError("");
+    if (
+      file.size > 2 * 1024 * 1024 ||
+      !["image/jpeg", "image/png", "image/webp"].includes(file.type)
+    ) {
+      setPhotoError("Выберите JPG, PNG или WebP до 2 МБ.");
+      return;
+    }
+    setReading(true);
+    try {
+      const reader = new FileReader();
+      const data = await new Promise((resolve, reject) => {
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(Error("Не удалось прочитать фотографию"));
+        reader.readAsDataURL(file);
+      });
+      set((old) => ({
+        ...old,
+        image_data: data.split(",")[1],
+        image_type: file.type,
+      }));
+    } catch (error) {
+      setPhotoError(error.message);
+    } finally {
+      setReading(false);
+    }
+  }
   return (
     <>
       <div className="crumb">Магазин сообщества › Товары</div>
-      <h1>Редактор товара</h1>
+      <h1>{p.id ? "Редактор товара" : "Новый товар"}</h1>
       <div className="editgrid">
         <section className="box">
           <Photo p={p} />
-          <h2>{p.title}</h2>
+          <h2>{p.title || "Новая карточка"}</h2>
+          <label className="photo-choice">
+            Фотография товара
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              disabled={reading || busy}
+              onChange={(e) => pickPhoto(e.target.files[0])}
+            />
+          </label>
+          {photoError && (
+            <p role="alert" className="error">
+              {photoError}
+            </p>
+          )}
           <p>
-            {rub(p.price)} · {p.stock} шт. в наличии
+            {rub(p.price)}, {p.stock} шт. в наличии
           </p>
           <Chip>{p.published ? "В витрине" : "Черновик"}</Chip>
         </section>
@@ -118,13 +181,13 @@ function Edit({ product, commit, busy }) {
           <div className="actions">
             <Action
               secondary
-              disabled={busy}
+              disabled={busy || reading}
               onClick={() => commit({ ...p, published: false })}
             >
               В черновики
             </Action>
             <Action
-              disabled={busy}
+              disabled={busy || reading}
               onClick={() => commit({ ...p, published: true })}
             >
               Опубликовать
@@ -136,13 +199,18 @@ function Edit({ product, commit, busy }) {
   );
 }
 function Shop() {
+  const generation = useRef(0);
+  const [syncNote, setSyncNote] = useState("");
   const [store, setStore] = useState(null),
     [loading, load] = useState(true),
-    [page, go] = useState("Каталог"),
+    [page, go] = useState("Обзор"),
+    [draft, setDraft] = useState(null),
+    [origin, setOrigin] = useState({ surface: "Витрина", post_id: null }),
     [id, select] = useState(1),
     [err, error] = useState(""),
     [busy, lock] = useState(false),
     [filter, filterBy] = useState("Все"),
+    [sourceFilter, setSourceFilter] = useState("Все каналы"),
     [query, search] = useState(""),
     [reason, why] = useState(""),
     [method, choose] = useState("pickup"),
@@ -159,13 +227,17 @@ function Shop() {
     localStorage.setItem("warm-cart", JSON.stringify(v));
   }
   async function refresh() {
+    const ticket = ++generation.current;
     const s = await api("store");
-    setStore(s);
+    if (ticket === generation.current) {
+      setStore(s);
+      setSyncNote("");
+    }
     return s;
   }
   useEffect(() => {
     refresh()
-      .then((s) => go(s.role === "seller" ? "Каталог" : "Лента"))
+      .then((s) => go(s.role === "seller" ? "Обзор" : "Лента"))
       .catch((e) => {
         if (e.message !== "Выберите роль") error(e.message);
       })
@@ -173,7 +245,13 @@ function Shop() {
   }, []);
   useEffect(() => {
     if (!store) return;
-    const timer = setInterval(() => refresh().catch(() => {}), 3500);
+    const timer = setInterval(
+      () =>
+        refresh().catch(() =>
+          setSyncNote("Связь с магазином прервалась. Повторяем подключение."),
+        ),
+      3500,
+    );
     return () => clearInterval(timer);
   }, [store?.role]);
   async function run(fn) {
@@ -182,8 +260,10 @@ function Shop() {
     error("");
     try {
       await fn();
+      return true;
     } catch (e) {
       error(e.message);
+      return false;
     } finally {
       lock(false);
     }
@@ -194,12 +274,13 @@ function Shop() {
     error("");
     search("");
     filterBy("Все");
+    setSourceFilter("Все каналы");
     why("");
   }
   async function login(role) {
     await api("session", "POST", { role });
     await refresh();
-    nav(role === "seller" ? "Каталог" : "Лента");
+    nav(role === "seller" ? "Обзор" : "Лента");
   }
   const seller = store?.role === "seller",
     orders = store?.orders || [],
@@ -207,10 +288,24 @@ function Shop() {
     p = products.find((x) => x.id === id),
     o = orders.find((x) => x.id === id);
   const edit = (x) => {
+    setDraft(null);
     select(x.id);
     nav("Редактор");
   };
-  const detail = (x) => {
+  const detail = async (x, surface = "Витрина", post_id = null) => {
+    try {
+      await api("opens", "POST", {
+        product: x.id,
+        surface,
+        post_id,
+        request_id: crypto.randomUUID(),
+      });
+    } catch (e) {
+      error(e.message);
+      return;
+    }
+    setOrigin({ surface, post_id });
+
     select(x.id);
     count(1);
     choose(x.pickup ? "pickup" : "courier");
@@ -222,7 +317,10 @@ function Shop() {
   };
   const tabs = seller
     ? [
+        ["Обзор", Icon24HomeOutline],
         ["Каталог", Icon24StorefrontOutline],
+        ["Публикации", Icon24WriteOutline],
+        ["Сообщения", Icon24MessageOutline],
         ["Заказы", Icon24MarketOutline],
         ["Аналитика", Icon24GraphOutline],
       ]
@@ -233,9 +331,10 @@ function Shop() {
         ["Корзина", Icon24ShoppingCartOutline],
         ["Мои заказы", Icon24MarketOutline],
       ];
-  function dash(status) {
+  function dash(status, source = "Все каналы") {
     nav("Заказы");
     filterBy(status);
+    setSourceFilter(source);
   }
   let content;
   if (loading) content = <Spinner />;
@@ -259,63 +358,47 @@ function Shop() {
         </div>
       </section>
     );
-  else if (page === "Редактор" && p)
+  else if (page === "Редактор" && (p || draft))
     content = (
       <Edit
-        key={p.id}
-        product={p}
+        key={p?.id || draft.request_id}
+        product={p || draft}
         busy={busy}
         commit={(v) =>
           run(async () => {
-            await api("products/" + v.id, "PUT", v);
+            if (v.id) await api("products/" + v.id, "PUT", v);
+            else await api("products", "POST", v);
+            setDraft(null);
             await refresh();
             nav("Каталог");
           })
         }
       />
     );
-  else if (page === "Маркет") {
-    const savedProducts = products.filter((product) =>
-      store.saved.includes(product.id),
-    );
+  else if (page === "Обзор" && seller)
     content = (
-      <>
-        <div className="crumb">ВКонтакте › Маркет</div>
-        <h1>Мой Маркет</h1>
-        <section className="box market">
-          <h2>Сохранённые товары</h2>
-          {savedProducts.length ? (
-            <div className="cards">
-              {savedProducts.map((product) => (
-                <article className="product" key={product.id}>
-                  <Photo p={product} />
-                  <h3>{product.title}</h3>
-                  <p>{rub(product.price)}</p>
-                  <Action secondary onClick={() => detail(product)}>
-                    Вернуться к товару
-                  </Action>
-                </article>
-              ))}
-            </div>
-          ) : (
-            <p>Нажмите «Сохранить» в карточке, чтобы вернуться к покупке.</p>
-          )}
-        </section>
-        {orders.length > 0 && (
-          <section className="hint">
-            <div>
-              <small>ВЫ УЖЕ ПОКУПАЛИ ЗДЕСЬ</small>
-              <h2>Мастерская «Тёплый дом»</h2>
-              <p>Ваши заказы и товары знакомого магазина.</p>
-            </div>
-            <Action secondary onClick={() => nav("Витрина")}>
-              Открыть витрину
-            </Action>
-          </section>
-        )}
-      </>
+      <Overview store={store} nav={nav} edit={edit} order={order} dash={dash} />
     );
-  } else if (["Каталог", "Лента", "Витрина"].includes(page)) {
+  else if (page === "Публикации" && seller)
+    content = (
+      <Posts
+        store={store}
+        busy={busy}
+        publish={(v) =>
+          run(async () => {
+            await api("posts", "POST", v);
+            await refresh();
+          })
+        }
+      />
+    );
+  else if (page === "Сообщения" && seller)
+    content = <Inbox orders={orders} open={order} />;
+  else if (page === "Лента" && !seller)
+    content = <Feed store={store} open={detail} />;
+  else if (page === "Маркет" && !seller)
+    content = <Market store={store} open={detail} nav={nav} />;
+  else if (["Каталог", "Витрина"].includes(page)) {
     const listed = products.filter(
       (x) =>
         x.title.toLowerCase().includes(query.toLowerCase()) &&
@@ -327,7 +410,7 @@ function Shop() {
         <div className="banner">
           <small>{seller ? "УПРАВЛЕНИЕ СООБЩЕСТВОМ" : "СООБЩЕСТВО"}</small>
           <h1>Мастерская «Тёплый дом»</h1>
-          <p>Керамика ручной работы · Москва</p>
+          <p>Керамика ручной работы в Москве</p>
         </div>
         {seller && products.some((x) => !x.published) && (
           <section className="hint">
@@ -347,6 +430,28 @@ function Shop() {
           <div className="heading">
             <h2>{page === "Каталог" ? "Товары сообщества" : page}</h2>
             <span>{listed.length}</span>
+            {seller && (
+              <button
+                className="primary-action add-card"
+                onClick={() => {
+                  select(null);
+                  setDraft({
+                    title: "",
+                    price: 0,
+                    stock: 1,
+                    pickup: "",
+                    delivery: 0,
+                    days: 0,
+                    post: "",
+                    published: false,
+                    request_id: crypto.randomUUID(),
+                  });
+                  nav("Редактор");
+                }}
+              >
+                Добавить товар
+              </button>
+            )}
           </div>
           <div className="tools">
             <input
@@ -413,7 +518,7 @@ function Shop() {
             <h1>{p.title}</h1>
             <h2>{rub(p.price)}</h2>
             <Chip>
-              {p.stock ? "В наличии · " + p.stock + " шт." : "Распродано"}
+              {p.stock ? "В наличии / " + p.stock + " шт." : "Распродано"}
             </Chip>
             <p>
               {
@@ -432,7 +537,7 @@ function Shop() {
                   checked={method === "pickup"}
                   onChange={() => choose("pickup")}
                 />{" "}
-                Самовывоз бесплатно · {p.pickup}
+                Самовывоз бесплатно / {p.pickup}
               </label>
             )}
             {p.days > 0 && (
@@ -442,7 +547,7 @@ function Shop() {
                   checked={method === "courier"}
                   onChange={() => choose("courier")}
                 />{" "}
-                Курьер · {rub(p.delivery)} · {p.days} дн.
+                Курьер / {rub(p.delivery)} / {p.days} дн.
               </label>
             )}
             <label>
@@ -460,6 +565,7 @@ function Shop() {
                 disabled={qty < 1 || qty > p.stock || !Number.isInteger(qty)}
                 onClick={() => {
                   basket({
+                    ...origin,
                     product: p.id,
                     quantity: qty,
                     method,
@@ -502,7 +608,7 @@ function Shop() {
             <Row label="Получение">
               {cart.method === "pickup"
                 ? x.pickup
-                : "Курьер · " + x.days + " дн."}
+                : "Курьер / " + x.days + " дн."}
             </Row>
             <Row label="Доставка">
               {rub(cart.method === "pickup" ? 0 : x.delivery)}
@@ -596,6 +702,31 @@ function Shop() {
             );
           })}
         </div>
+        <section className="origin-report">
+          <h3>Откуда пришли заказы</h3>
+          <div className="origin-labels">
+            <span>Точка входа</span>
+            <span>Открытия</span>
+            <span>Заказы</span>
+            <span>Выдачи</span>
+          </div>
+          {store.sources.map((source) => (
+            <button
+              key={source.name}
+              className="origin-line"
+              onClick={() => dash("Все", source.name)}
+            >
+              <b>{source.name}</b>
+              <span>
+                {source.name === "Источник неизвестен"
+                  ? "Нет данных"
+                  : source.opens}
+              </span>
+              <b>{source.orders}</b>
+              <span>{source.issued}</span>
+            </button>
+          ))}
+        </section>
         <Row label="Стоимость выданных товаров">
           {rub(
             orders
@@ -618,11 +749,15 @@ function Shop() {
         {o.address && <Row label="Адрес доставки">{o.address}</Row>}
         <Row label="Доставка">{rub(o.shipping)}</Row>
         <Row label="Итого">{rub(o.price * o.quantity + o.shipping)}</Row>
+        <Row label="Источник заказа">
+          {o.surface}
+          {o.post_id ? " (запись № " + o.post_id + ")" : ""}
+        </Row>
         <h3>История заказа</h3>
         {o.history.map((h, i) => (
           <div className="event" key={i}>
-            <b>{h.status}</b> · {h.detail}
-            <small>{h.time} UTC</small>
+            <b>{h.status}</b> <span>{h.detail}</span>
+            <small>{formatShopTime(h.time)} мск</small>
           </div>
         ))}
         {seller && o.status === "Оформлен" && (
@@ -659,12 +794,28 @@ function Shop() {
             </Action>
           </div>
         )}
+        <Conversation
+          key={o.id}
+          order={o}
+          seller={seller}
+          busy={busy}
+          send={(text, request_id) =>
+            run(async () => {
+              await api("orders/" + o.id + "/messages", "POST", {
+                text,
+                request_id,
+              });
+              await refresh();
+            })
+          }
+        />
       </section>
     );
   } else {
     const subset = orders.filter(
       (x) =>
         (filter === "Все" || filter === x.status) &&
+        (sourceFilter === "Все каналы" || sourceFilter === x.surface) &&
         (x.title + " " + x.id).toLowerCase().includes(query.toLowerCase()),
     );
     content = (
@@ -676,7 +827,24 @@ function Shop() {
             value={query}
             onChange={(e) => search(e.target.value)}
           />
-          <select value={filter} onChange={(e) => filterBy(e.target.value)}>
+          {seller && (
+            <select
+              aria-label="Источник заказа"
+              value={sourceFilter}
+              onChange={(e) => setSourceFilter(e.target.value)}
+            >
+              {["Все каналы", ...store.sources.map((row) => row.name)].map(
+                (source) => (
+                  <option key={source}>{source}</option>
+                ),
+              )}
+            </select>
+          )}
+          <select
+            aria-label="Статус заказа"
+            value={filter}
+            onChange={(e) => filterBy(e.target.value)}
+          >
             {["Все", "Оформлен", "Выдан", "Отменён"].map((s) => (
               <option key={s}>{s}</option>
             ))}
@@ -700,7 +868,7 @@ function Shop() {
         <div className="headinner">
           <Icon32LogoVkColor />
           <b>ВКонтакте</b>
-          <span>Магазин сообщества</span>
+          <span>{seller ? "Для бизнеса" : "Магазин сообщества"}</span>
           {store && (
             <button
               className="switch"
@@ -730,6 +898,11 @@ function Shop() {
           </nav>
         )}
         <main>
+          {syncNote && (
+            <p className="sync-note" role="status">
+              {syncNote}
+            </p>
+          )}
           {err && (
             <p role="alert" className="error">
               {err}

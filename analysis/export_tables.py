@@ -108,6 +108,54 @@ summary.write_url(
     "A11", "internal:'Экономика'!A1", string="Посмотреть помесячный поток"
 )
 
+summary.write_row("A14", ["Итоги по площадкам", "ВКонтакте", "Партнёр 1"], header)
+for row, (label, values) in enumerate(audit["platform_comparison"].items(), 14):
+    summary.write(row, 0, label, note)
+    for col, key in [(1, "vk"), (2, "partner")]:
+        value = values[key]
+        summary.write(
+            row,
+            col,
+            value / 100 if "%" in label else value,
+            percent if "%" in label else integer,
+        )
+summary.write_row("A20", ["Выборка бизнесов", "Значение", "Источник"], header)
+for row, (label, value, origin) in enumerate(
+    [
+        ("Все бизнесы", audit["totals"]["businesses"], "Лист «Бизнесы»"),
+        (
+            "Каталог и просмотры контента",
+            audit["candidate_segments"]["catalog_and_product_content"]["businesses"],
+            "Есть активный товар и положительные просмотры товарного контента.",
+        ),
+        (
+            "Активный каталог и оформление",
+            audit["candidate_segments"]["active_product_catalog"]["checkout_enabled"],
+            "Подключено оформление заказа.",
+        ),
+        (
+            "Активный каталог и заказ",
+            audit["candidate_segments"]["active_product_catalog"]["with_orders"],
+            "Есть хотя бы один заказ через оформление.",
+        ),
+        (
+            "Заказы по категориям сверх итога VK",
+            next(
+                r["delta"]
+                for r in market["aggregate_reconciliations"]
+                if "категории" in r["sheet"]
+                and r["metric"] == "Заказы: Маркет Вконтакте"
+            ),
+            "Сумма по категориям за вычетом общего итога VK.",
+        ),
+    ],
+    20,
+):
+    summary.write(row, 0, label, note)
+    summary.write(row, 1, value, integer)
+    summary.write(row, 2, origin, note)
+    summary.set_row(row, 32)
+
 records(
     "Сегменты",
     [
@@ -261,4 +309,75 @@ records(
     [(r["lift"], r["absolute_orders"], r["per_arm"]) for r in pilot["sensitivity"]],
     {0: percent, 1: decimal, 2: integer},
 )
+cash.set_column("G:M", 19)
+for j, title in enumerate(
+    [
+        "Сценарий",
+        "Первый месяц с прибылью",
+        "Возврат вложений, месяц",
+        "Максимальная потребность, ₽",
+        "Итог за 24 месяца, ₽",
+    ]
+):
+    cash.write(19, 6 + j, title, header)
+cash.set_row(19, 43)
+for index, scenario in enumerate(model["scenarios"]):
+    start, end = 2 + 24 * index, 25 + 24 * index
+    row = 20 + index
+    months = scenario["months"]
+    cash.write(row, 6, scenario["scenario"])
+    first_positive = next(
+        (m["month_after_launch"] for m in months if m["net_cash"] > 0), "За горизонтом"
+    )
+    payback = scenario["payback_month_after_launch"] or "За горизонтом"
+    cash.write_formula(
+        row,
+        7,
+        f'=IFERROR(MATCH(1,INDEX((D{start}:D{end}>0)*1,0),0),"За горизонтом")',
+        integer,
+        first_positive,
+    )
+    cash.write_formula(
+        row,
+        8,
+        f'=IFERROR(MATCH(1,INDEX((E{start}:E{end}>=0)*1,0),0),"За горизонтом")',
+        integer,
+        payback,
+    )
+    peak = -min([-model["investment_rub"]] + [m["cumulative_cash"] for m in months])
+    cash.write_formula(row, 9, f"=-MIN(-'Допущения'!$B$7,E{start}:E{end})", money, peak)
+    cash.write_formula(row, 10, f"=E{end}", money, scenario["cash_24_months"])
+
+# Include the capital investment at month zero in the same base-case line as the deck.
+cash.write_row("N1", ["Месяц", "Накопленный поток, ₽"], header)
+cash.set_column("N:O", 24)
+cash.write_number("N2", 0)
+cash.write_formula("O2", "=-'Допущения'!$B$7", money, -model["investment_rub"])
+for i, month in enumerate(model["scenarios"][1]["months"]):
+    cash.write_number(2 + i, 13, month["month_after_launch"])
+    cash.write_formula(2 + i, 14, f"=E{26 + i}", money, month["cumulative_cash"])
+base_chart = wb.add_chart({"type": "scatter", "subtype": "straight"})
+base_chart.add_series(
+    {
+        "name": "Базовый сценарий",
+        "categories": ["Экономика", 1, 13, 25, 13],
+        "values": ["Экономика", 1, 14, 25, 14],
+        "line": {"color": "#0077FF", "width": 3},
+    }
+)
+base_chart.set_title({"name": "Базовый сценарий с момента вложения"})
+base_chart.set_x_axis(
+    {
+        "name": "Месяц после запуска",
+        "min": 0,
+        "max": 24,
+        "major_unit": 6,
+        "label_position": "low",
+    }
+)
+base_chart.set_y_axis({"name": "Накопленный поток, ₽", "num_format": "#,##0"})
+base_chart.set_legend({"none": True})
+cash.insert_chart("G26", base_chart)
+
+
 wb.close()

@@ -1,6 +1,7 @@
 """Local case prototype. Both demo accounts operate on the same SQLite database."""
 
 import os
+import hashlib
 import secrets
 import sqlite3
 from contextlib import contextmanager
@@ -11,9 +12,33 @@ from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
+from inventory import (
+    CardEdit,
+    NewCard,
+    initialize_media,
+    prepare_photo,
+    store_photo,
+    product_photo,
+)
+from publications import (
+    Message,
+    PostInput,
+    Surface,
+    Touch,
+    check_source,
+    migrate,
+    open_product,
+    publish,
+    read_posts,
+    sources,
+    sync_card,
+    write_message,
+)
+
+
 ROOT = Path(__file__).resolve().parent
 DB = os.getenv("SHOP_DB", str(ROOT / "shop.sqlite3"))
-app = FastAPI(title="Мастерская · ВКонтакте")
+app = FastAPI(title="Магазин сообщества ВКонтакте")
 
 
 @contextmanager
@@ -90,7 +115,7 @@ def initialize():
                         f"seed-{i}",
                     ),
                 )
-                record(c, i, "Оформлен", "Заказ из публикации")
+                record(c, i, "Оформлен", "Заказ принят магазином")
                 if status != "Оформлен":
                     record(
                         c,
@@ -100,6 +125,8 @@ def initialize():
                         if status == "Выдан"
                         else "Покупатель изменил планы",
                     )
+        migrate(c)
+        initialize_media(c)
 
 
 def record(c, oid, status, detail):
@@ -152,6 +179,14 @@ def store(actor=Depends(role)):
         orders = [dict(r) for r in c.execute("SELECT * FROM orders ORDER BY id DESC")]
         for o in orders:
             o.pop("request_id")
+            o["messages"] = [
+                dict(m)
+                for m in c.execute(
+                    "SELECT author,text,created FROM order_messages WHERE order_id=? ORDER BY id",
+                    (o["id"],),
+                )
+            ]
+
             o["history"] = [
                 dict(r)
                 for r in c.execute(
@@ -161,56 +196,87 @@ def store(actor=Depends(role)):
             ]
         return {
             "role": actor,
+            "posts": read_posts(c, actor == "seller"),
+            "sources": sources(c) if actor == "seller" else [],
             "products": [dict(r) for r in products],
             "orders": orders,
             "saved": [r[0] for r in c.execute("SELECT product FROM saved")],
         }
 
 
-class Product(BaseModel):
-    title: str = Field(min_length=1, max_length=100)
-    price: int = Field(gt=0, le=1000000)
-    stock: int = Field(ge=0, le=100000)
-    pickup: str = Field(max_length=200)
-    delivery: int = Field(ge=0, le=10000)
-    days: int = Field(ge=0, le=60)
-    post: str = Field(max_length=2000)
-    published: bool
-    version: int = Field(ge=1)
+@app.post("/api/posts")
+def new_post(body: PostInput, actor=Depends(role)):
+    require(actor, "seller")
+    with db() as c:
+        return {"id": publish(c, body)}
+
+
+@app.post("/api/opens")
+def register_open(body: Touch, actor=Depends(role)):
+    require(actor, "buyer")
+    with db() as c:
+        open_product(c, body)
+    return {"ok": True}
+
+
+@app.post("/api/orders/{oid}/messages")
+def add_message(oid: int, body: Message, actor=Depends(role)):
+    with db() as c:
+        write_message(c, oid, actor, body)
+    return {"ok": True}
+
+
+@app.post("/api/products")
+def create_card(body: NewCard, actor=Depends(role)):
+    require(actor, "seller")
+    values = body.values()
+    photo = prepare_photo(body.image_data)
+    digest = hashlib.sha256(body.model_dump_json().encode()).hexdigest()
+    with db() as c:
+        c.execute("BEGIN IMMEDIATE")
+        old = c.execute(
+            "SELECT product,digest FROM new_cards WHERE request_id=?",
+            (body.request_id,),
+        ).fetchone()
+        if old:
+            if old["digest"] != digest:
+                raise HTTPException(409, "Этим запросом уже создан другой товар")
+            return {"id": old["product"]}
+        pid = c.execute(
+            "INSERT INTO products(title,price,stock,pickup,delivery,days,post,published) VALUES(?,?,?,?,?,?,?,?)",
+            values,
+        ).lastrowid
+        store_photo(c, pid, photo)
+        c.execute("INSERT INTO new_cards VALUES(?,?,?)", (body.request_id, digest, pid))
+        if body.published:
+            sync_card(c, pid, body.post.strip())
+        return {"id": pid}
 
 
 @app.put("/api/products/{pid}")
-def edit(pid: int, body: Product, actor=Depends(role)):
+def edit(pid: int, body: CardEdit, actor=Depends(role)):
     require(actor, "seller")
-    if body.published and (
-        not body.post.strip() or not (body.pickup.strip() or body.days)
-    ):
-        raise HTTPException(
-            422, "Для публикации добавьте текст записи и способ получения"
-        )
+    values = body.values()
+    photo = prepare_photo(body.image_data)
     with db() as c:
-        values = (
-            body.title,
-            body.price,
-            body.stock,
-            body.pickup.strip(),
-            body.delivery,
-            body.days,
-            body.post,
-            body.published,
-            pid,
-            body.version,
-        )
         changed = c.execute(
             "UPDATE products SET title=?,price=?,stock=?,pickup=?,delivery=?,days=?,post=?,published=?,version=version+1 WHERE id=? AND version=?",
-            values,
+            (*values, pid, body.version),
         )
         if not changed.rowcount:
             raise HTTPException(
                 409, "Карточка изменилась. Откройте товар заново и проверьте остаток."
             )
-
+        store_photo(c, pid, photo)
+        if body.published:
+            sync_card(c, pid, body.post.strip())
     return {"ok": True}
+
+
+@app.get("/api/products/{pid}/photo")
+def image(pid: int, actor=Depends(role)):
+    with db() as c:
+        return product_photo(c, pid, actor == "seller", ROOT / "public")
 
 
 @app.put("/api/saved/{pid}")
@@ -229,6 +295,8 @@ def favorite(pid: int, enabled: bool, actor=Depends(role)):
 
 
 class Purchase(BaseModel):
+    surface: Surface | None = None
+    post_id: int | None = None
     product: int
     quantity: int = Field(ge=1, le=99)
     method: Literal["pickup", "courier"]
@@ -246,18 +314,32 @@ def purchase(body: Purchase, actor=Depends(role)):
             "SELECT * FROM orders WHERE request_id=?", (body.request_id,)
         ).fetchone()
         if old:
-            if tuple(old[k] for k in ("product", "quantity", "method")) != (
+            expected_address = body.address.strip() if body.method == "courier" else ""
+            if (
+                old["product"],
+                old["quantity"],
+                old["method"],
+                old["address"],
+                old["price"] * old["quantity"] + old["shipping"],
+                old["post_id"],
+                old["surface"],
+            ) != (
                 body.product,
                 body.quantity,
                 body.method,
+                expected_address,
+                body.quoted_total,
+                body.post_id,
+                body.surface or "Источник неизвестен",
             ):
-                raise HTTPException(409, "Запрос уже использован")
+                raise HTTPException(409, "Запрос уже использован для другого заказа")
             return {"id": old["id"]}
         p = c.execute(
             "SELECT * FROM products WHERE id=? AND published=1", (body.product,)
         ).fetchone()
         if not p or p["stock"] < body.quantity:
             raise HTTPException(409, "Недостаточно товара в наличии")
+        check_source(c, body.product, body.post_id, body.surface)
         pickup = body.method == "pickup"
         if not (p["pickup"].strip() if pickup else p["days"]):
             raise HTTPException(422, "Способ получения недоступен")
@@ -270,7 +352,7 @@ def purchase(body: Purchase, actor=Depends(role)):
             )
         terms = p["pickup"] if pickup else f"Курьер за {p['days']} дн."
         oid = c.execute(
-            "INSERT INTO orders(product,title,price,quantity,method,shipping,terms,status,request_id,address) VALUES(?,?,?,?,?,?,?,'Оформлен',?,?)",
+            "INSERT INTO orders(product,title,price,quantity,method,shipping,terms,status,request_id,address,post_id,surface) VALUES(?,?,?,?,?,?,?,'Оформлен',?,?,?,?)",
             (
                 p["id"],
                 p["title"],
@@ -281,6 +363,8 @@ def purchase(body: Purchase, actor=Depends(role)):
                 terms,
                 body.request_id,
                 "" if pickup else body.address.strip(),
+                body.post_id,
+                body.surface or "Источник неизвестен",
             ),
         ).lastrowid
         c.execute(
