@@ -704,3 +704,11 @@ h3 {
 }
 
 .sub,.sourcehint,.source p{font-weight:400}
+
+.producttail{display:grid;grid-template-columns:1.15fr 1fr;gap:28px;margin-top:12px;padding-top:8px}
+.producttail .scan{margin:0;padding:0;min-height:70px;background:transparent}
+.producttail .scan img{width:78px;height:78px}
+.producttail > p{color:#304a64;font-size:16px;line-height:1.3}
+#p7 .device{height:268px}
+#p7 .producttail .scan img{width:90px;height:90px}
+#p7 .producttail p{margin:0}

@@ -1,4 +1,4 @@
-"""Collect the eight public site files without copying the source workbook or application."""
+"""Assemble the jury site from the published materials and the browser build."""
 
 import argparse
 import shutil
@@ -14,11 +14,28 @@ def export(target):
         "slides.pdf": "presentation/Digital Cat$_strategy_msk.pdf",
         "team.svg": "presentation/assets/digital-cat.svg",
         "shop.webp": "presentation/assets/mac-shop.webp",
+        "phone-clip.webp": "presentation/assets/phone-clip.webp",
         "publication.webp": "docs/images/publication.webp",
     }
-    target.mkdir(parents=True, exist_ok=True)
+    for face in ("VKSansText-Regular", "VKSansText-Medium", "VKSansText-DemiBold", "VKSansDisplayExpanded-Bold"):
+        name = "fonts/" + face + ".woff2"
+        assets[name] = "presentation/" + name
+
+    dist = root / "demo/dist"
+    if not (dist / "index.html").is_file() or not (dist / "shop.js").is_file():
+        raise FileNotFoundError("Сначала соберите браузерную версию магазина в demo/dist")
+    public_extensions = {".html", ".css", ".js", ".mjs", ".woff", ".woff2", ".svg", ".webp", ".jpg", ".png", ".mp4", ".webm", ".vtt"}
+    for source in sorted(dist.rglob("*")):
+        if source.is_file():
+            if source.suffix.lower() not in public_extensions:
+                raise ValueError(f"Проверьте назначение файла сборки {source.name}")
+            name = Path("prototype") / source.relative_to(dist)
+            assets[name] = source.relative_to(root)
+
     for name, source in assets.items():
-        shutil.copyfile(root / source, target / name)
+        destination = target / name
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(root / source, destination)
     (target / ".nojekyll").touch()
 
 

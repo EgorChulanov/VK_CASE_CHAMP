@@ -1,0 +1,138 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "Кружка «Мел»",
+      "price": 1200,
+      "stock": 8,
+      "pickup": "",
+      "delivery": 0,
+      "days": 0,
+      "published": 0,
+      "post": "",
+      "version": 1
+    },
+    {
+      "id": 2,
+      "title": "Кружка «Утро»",
+      "price": 1450,
+      "stock": 3,
+      "pickup": "Мастерская на Покровке",
+      "delivery": 300,
+      "days": 2,
+      "published": 1,
+      "post": "Три кружки из утренней партии уже на витрине.",
+      "version": 1
+    },
+    {
+      "id": 3,
+      "title": "Кружка для эспрессо",
+      "price": 850,
+      "stock": 1,
+      "pickup": "Мастерская на Покровке",
+      "delivery": 250,
+      "days": 2,
+      "published": 1,
+      "post": "Последняя маленькая кружка этой серии.",
+      "version": 1
+    }
+  ],
+  "orders": [
+    {
+      "id": 3,
+      "product": 2,
+      "title": "Кружка «Утро»",
+      "price": 1450,
+      "quantity": 1,
+      "method": "pickup",
+      "shipping": 0,
+      "terms": "Мастерская на Покровке",
+      "status": "Отменён",
+      "address": "",
+      "post_id": null,
+      "surface": "Источник неизвестен",
+      "messages": [],
+      "history": [
+        {
+          "status": "Оформлен",
+          "detail": "Заказ принят магазином",
+          "time": "2026-11-21 09:35:14"
+        },
+        {
+          "status": "Отменён",
+          "detail": "Покупатель изменил планы",
+          "time": "2026-11-21 09:35:14"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "product": 2,
+      "title": "Кружка «Утро»",
+      "price": 1450,
+      "quantity": 1,
+      "method": "pickup",
+      "shipping": 0,
+      "terms": "Мастерская на Покровке",
+      "status": "Выдан",
+      "address": "",
+      "post_id": null,
+      "surface": "Источник неизвестен",
+      "messages": [],
+      "history": [
+        {
+          "status": "Оформлен",
+          "detail": "Заказ принят магазином",
+          "time": "2026-11-21 09:35:14"
+        },
+        {
+          "status": "Выдан",
+          "detail": "Передан покупателю",
+          "time": "2026-11-21 09:35:14"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "product": 2,
+      "title": "Кружка «Утро»",
+      "price": 1450,
+      "quantity": 1,
+      "method": "pickup",
+      "shipping": 0,
+      "terms": "Мастерская на Покровке",
+      "status": "Оформлен",
+      "address": "",
+      "post_id": null,
+      "surface": "Источник неизвестен",
+      "messages": [],
+      "history": [
+        {
+          "status": "Оформлен",
+          "detail": "Заказ принят магазином",
+          "time": "2026-11-21 09:35:14"
+        }
+      ]
+    }
+  ],
+  "posts": [
+    {
+      "id": 2,
+      "product": 3,
+      "text": "Последняя маленькая кружка этой серии.",
+      "created": "2026-11-21 09:35:14",
+      "primary_card": 1
+    },
+    {
+      "id": 1,
+      "product": 2,
+      "text": "Три кружки из утренней партии уже на витрине.",
+      "created": "2026-11-21 09:35:14",
+      "primary_card": 1
+    }
+  ],
+  "saved": [],
+  "opens": [],
+  "receipts": {},
+  "pictures": {}
+}

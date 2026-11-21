@@ -9,6 +9,7 @@ captures = Path(sys.argv[1])
 for frame, screen, output in [
     ("mac", "overview", "mac-shop"),
     ("phone", "card", "phone-shop"),
+    ("phone", "clip", "phone-clip"),
     ("phone", "order", "phone-order"),
 ]:
     device = Image.open(assets / (frame + "-frame.webp")).convert("RGBA")

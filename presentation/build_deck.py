@@ -403,33 +403,67 @@ slide(
 
 
 def short_journey():
-    bands = [
-        ("Этап", 0),
-        ("Продавец", 2),
-        ("Покупатель", 3),
-        ("Вопрос покупателя", 4),
-        ("Помощь продукта", 5),
-        ("Что измерим", 6),
-    ]
+    from journey import steps
+
     rows = []
-    for label, key in bands:
-        cells = "".join(f"<div>{escape(s[key])}</div>" for s in stages)
-        rows.append(
-            f'<div class="journeyrow j{key}"><strong>{label}</strong>{cells}</div>'
-        )
-    return '<div class="journeymap">' + "".join(rows) + "</div>"
+    for label, key, color in [
+        ("Этап", 0, "#e2f3eb"),
+        ("Продавец", 2, "#eef6ed"),
+        ("Покупатель", 3, "#e8f2fe"),
+        ("Работа сервиса", 5, "#f0edfa"),
+        ("Что измерим", 6, "#f1f5f9"),
+    ]:
+        cells = []
+        for stage in stages:
+            content = escape(stage[key])
+            if key == 0:
+                content = f"<small>{stage[1]}</small><b>{content}</b>"
+            cells.append(f'<div><span style="background:{color}">{content}</span></div>')
+        rows.append(f'<div class="cjm-band"><strong>{label}</strong>{"".join(cells)}</div>')
+    chart = []
+    for role, color in [("buyer", "#0566ce"), ("seller", "#10735b")]:
+        previous = None
+        for phase in range(6):
+            ratings = [s.feeling for s in steps[4*phase:4*phase+4] if s.actor == role]
+            if not ratings:
+                previous = None
+                continue
+            x, y = 90 + phase * 176, 38 - ratings[-1] * 10
+            if previous:
+                chart.append(f'<line x1="{previous[0]}" y1="{previous[1]}" x2="{x}" y2="{y}" stroke="{color}" stroke-width="2"/>')
+            if role == "buyer":
+                chart.append(f'<circle cx="{x}" cy="{y}" r="5" fill="{color}" stroke="white" stroke-width="1.5"/>')
+            else:
+                chart.append(f'<rect x="{x-4}" y="{y-4}" width="8" height="8" rx="1" fill="{color}" stroke="white" stroke-width="1"/>')
+            previous = (x,y)
+    guides = "".join(f'<line x1="0" x2="1056" y1="{y}" y2="{y}" stroke="#dce6ef"/>' for y in [18,38,58])
+    plot = f'<svg viewBox="0 0 1056 70" preserveAspectRatio="none" role="img" aria-label="Оценки эмоций по последнему шагу каждой роли на этапе. Гипотеза команды.">{guides}{"".join(chart)}</svg>'
+    style = """<style>
+    #p6 .cjm-band{display:grid;grid-template-columns:145px repeat(6,minmax(0,1fr));border-bottom:1px solid #d9e5ec}
+    #p6 .cjm-band>strong{align-self:center;font-size:16px;color:#274b65}
+    #p6 .cjm-band>div{padding:3px 4px;border-left:1px solid #e0e8ed;display:flex}
+    #p6 .cjm-band span{display:block;padding:5px 8px;font-size:15.5px;line-height:1.21;border-radius:3px;width:100%}
+    #p6 .cjm-band small{display:block;font-size:12px;color:#416569}
+    #p6 .cjm-band b{font-size:16.5px}
+    #p6 .cjm-chart{display:grid;grid-template-columns:145px 1fr;align-items:center;border-bottom:1px solid #d9e5ec}
+    #p6 .cjm-chart strong{font-size:16px;color:#274b65}
+    #p6 .cjm-chart small{display:block;font-size:11px;color:#4a657c;margin-top:3px}
+    #p6 .cjm-chart svg{width:100%;height:59px}
+    #p6 .maptail{grid-template-columns:1.6fr 1fr;margin-top:10px}
+    </style>"""
+    return style + "".join(rows) + '<div class="cjm-chart"><div><strong>Эмоции</strong><small>От −2 до +2, гипотеза</small></div>' + plot + '</div>'
 
 
 slide(
     "Продукт",
     "Карта пути продавца и покупателя",
     short_journey()
-    + '<div class="maptail"><div><strong>Где путь расходится</strong><p>Оформление внутри VK даёт номер заказа. Договорённость в чате и переход к партнёру требуют отдельного подтверждения покупки. Вопросы покупателя проверим в интервью.</p></div>'
+    + '<div class="maptail"><div><strong><span style="color:#0566ce">● Покупатель</span> &nbsp; <span style="color:#10735b">■ Продавец</span></strong><p>Точки показывают предполагаемую эмоцию в конце этапа по последнему шагу участника. Оценки проверим в интервью. Выдачу отмечает продавец после передачи вещи.</p></div>'
     + qr(
         "journey",
         "journey.html",
-        "Полная карта пути",
-        "12 действий, препятствия и способы проверки",
+        "Открыть карту пути",
+        "24 шага, задачи участников, барьеры и Service Blueprint",
     )
     + "</div>",
 )
@@ -459,10 +493,10 @@ slide(
     )
     + device(
         "post",
-        "Товар из записи",
-        "phone-shop.webp",
-        "Выбор получения",
-        "В карточке видны наличие, цена и способ получения. Вещь можно сохранить или сразу перейти к заказу.",
+        "Клипы",
+        "phone-clip.webp",
+        "Товар под видео",
+        "Покупатель нажимает на кружку под клипом, проверяет цену и выбирает способ получения. Источник сохраняется в заказе.",
     )
     + device(
         "check",
@@ -472,7 +506,9 @@ slide(
         "Переписка хранится рядом с номером заказа. После выдачи покупатель видит новый статус, при отмене получает причину.",
     )
     + "</div>"
-    + '<div class="producttail"><strong>Как продавец оценивает публикацию</strong><span>Открытия карточки → оформленные заказы → выдачи или отмены. Две записи об одном товаре учитываются отдельно.</span></div>',
+    + '<div class="producttail">'
+    + qr("prototype", "prototype/", "Попробовать магазин", "Оформите самовывоз за покупателя и отметьте выдачу за продавца.")
+    + '<p><b>Что увидит продавец</b><br>Открытия по публикациям, источник заказа, выдачи и отмены.</p></div>',
 )
 
 slide(
@@ -682,7 +718,7 @@ slide(
         )
         + note(
             "Граница прототипа",
-            "Оформление и статусы работают в локальном магазине. Для запуска в VK потребуются авторизация через VK ID и подключения оплаты и доставки.",
+            "Обе роли работают в открытом прототипе. Для запуска внутри ВКонтакте потребуются VK ID, подключение оплаты и службы доставки.",
             "mint",
         ),
     )
@@ -831,11 +867,11 @@ slide(
                 "jury",
                 "",
                 "Открыть страницу команды",
-                "Презентация, карта пути и таблицы",
+                "Прототип магазина, карта пути и расчёты",
             )
             + source(
                 "Полная карта пути",
-                "Шесть этапов и двенадцать действий. Можно выбрать роль покупателя или продавца.",
+                "24 шага, точки контакта, препятствия и процессы магазина.",
                 PUBLIC + "journey.html",
             )
             + source(

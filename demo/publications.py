@@ -5,7 +5,7 @@ from typing import Literal
 from fastapi import HTTPException
 from pydantic import BaseModel, Field
 
-Surface = Literal["Лента", "Витрина", "Маркет"]
+Surface = Literal["Лента", "Витрина", "Маркет", "Клипы"]
 
 
 class PostInput(BaseModel):
@@ -94,7 +94,7 @@ def sources(c):
     return [
         dict(row)
         for row in c.execute("""
-        WITH channels(name) AS (VALUES ('Лента'),('Витрина'),('Маркет'),('Источник неизвестен'))
+        WITH channels(name) AS (VALUES ('Лента'),('Витрина'),('Маркет'),('Клипы'),('Источник неизвестен'))
         SELECT name,
           (SELECT COUNT(*) FROM product_opens WHERE surface=name) AS opens,
           (SELECT COUNT(*) FROM orders WHERE surface=name) AS orders,
@@ -110,6 +110,8 @@ def check_source(c, pid, post_id, surface):
             "SELECT 1 FROM posts WHERE id=? AND product=?", (post_id, pid)
         ).fetchone():
             raise HTTPException(422, "Запись не связана с этим товаром")
+    elif surface == "Клипы" and pid != 2:
+        raise HTTPException(422, "К этому клипу прикреплён другой товар")
     elif post_id is not None:
         raise HTTPException(422, "Для этого перехода указывать запись не нужно")
 

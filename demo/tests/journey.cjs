@@ -76,13 +76,24 @@ async function capture(page, name) {
     const seller = await browser.newPage({
         viewport: { width: 1440, height: 900 },
       }),
-      buyer = await browser.newPage({ viewport: { width: 390, height: 844 } });
+      buyer = await browser.newPage({ viewport: { width: 390, height: 844 }, colorScheme: "dark" });
     const errors = [];
     for (const page of [seller, buyer]) {
       page.setDefaultTimeout(12000);
       page.on("pageerror", (e) => errors.push(String(e)));
       await page.goto(origin);
     }
+    await button(buyer, "Войти как покупатель").waitFor();
+    await buyer.evaluate(() => document.fonts.ready);
+    for (const label of ["Войти как продавец", "Войти как покупатель"]) {
+      const box = await button(buyer, label).boundingBox();
+      assert(box && box.y + box.height <= 844 && box.x >= 0 && box.x + box.width <= 390, label);
+    }
+    assert.deepEqual(await buyer.locator(".login h1").evaluate(el => {
+      const style = getComputedStyle(el);
+      return [style.color, style.fontFamily.includes("VK Sans Text"), document.fonts.check('600 20px "VK Sans Text"')];
+    }), ["rgb(25, 35, 46)", true, true]);
+    await capture(buyer, "roles");
     await button(seller, "Войти как продавец").click();
     await button(buyer, "Войти как покупатель").click();
     await seller.getByText("Требуют внимания", { exact: true }).waitFor();
@@ -108,6 +119,7 @@ async function capture(page, name) {
     await capture(buyer, "card");
     await button(buyer, "Сохранить").click();
     await button(buyer, "В сохранённых").waitFor();
+    assert((await buyer.locator(".vkuiButton__content").first().evaluate(el => getComputedStyle(el).fontFamily)).includes("VK Sans Text"));
     await button(buyer, "В корзину").click();
     await button(buyer, "Оформить заказ").click();
     const title = await buyer
@@ -221,9 +233,46 @@ async function capture(page, name) {
         return img.naturalWidth > 0;
       }),
     );
+    await button(buyer, "Клипы").click();
+    const video = buyer.locator("video");
+    await video.evaluate(async (el) => {
+      await el.play();
+      await new Promise((resolve, reject) => {
+        if (el.currentTime > 0.15) return resolve();
+        const timeout = setTimeout(() => reject(Error("Клип не проигрывается")), 5000);
+        function onTime() {
+          if (el.currentTime < .15) return;
+          clearTimeout(timeout);
+          el.removeEventListener("timeupdate", onTime);
+          resolve();
+        }
+        el.addEventListener("timeupdate", onTime);
+      });
+      el.pause();
+    });
+    assert.equal(await video.evaluate(el => Math.round(el.duration)), 9);
+    await capture(buyer, "clip");
+    await buyer.locator(".clip-tag").click();
+    await buyer.getByRole("heading", { name: "Кружка «Утро»" }).waitFor();
+    await button(buyer, "В корзину").click();
+    await button(buyer, "Оформить заказ").click();
+    const clipOrder = await buyer.getByRole("heading", { name: /Заказ №/ }).innerText();
+    await button(buyer, "Войти как продавец").click();
+    await button(buyer, "Заказы").click();
+    await buyer.getByRole("button", { name: new RegExp(clipOrder.replace("Заказ ", "")) }).click();
+    await button(buyer, "Подтвердить выдачу").click();
+    await buyer.locator(".chip").filter({ hasText: "Выдан" }).waitFor();
+    const source = await buyer.evaluate(async () => {
+      const store = await fetch("/api/store").then(r => r.json());
+      return store.sources.find(s => s.name === "Клипы");
+    });
+    assert.deepEqual([source.opens, source.orders, source.issued], [1, 1, 1]);
+    await button(buyer, "Войти как покупатель").click();
+    await button(buyer, "Мои заказы").click();
+    await buyer.getByRole("button", { name: new RegExp(clipOrder.replace("Заказ ", "")) }).getByText("Выдан").waitFor();
     assert.deepEqual(errors, []);
     console.log(
-      "Проверены новый товар с фотографией, публикация, покупка из ленты, сохранение, переписка, выдача, фильтры Маркета и отмена с возвратом остатка.",
+      "Проверены новый товар с фотографией, публикация, покупка из ленты, сохранение, переписка, выдача, фильтры Маркета, возврат остатка и выдача заказа из клипа при смене роли.",
     );
   } finally {
     if (browser) await browser.close();

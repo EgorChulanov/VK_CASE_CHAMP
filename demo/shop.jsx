@@ -10,6 +10,9 @@ import {
 import {
   Icon32LogoVkColor,
   Icon24HomeOutline,
+  Icon24ClipOutline,
+  Icon28LinkOutline,
+  Icon24Done,
   Icon24WriteOutline,
   Icon24MessageOutline,
   Icon24ShoppingCartOutline,
@@ -20,10 +23,12 @@ import {
 } from "@vkontakte/icons";
 import "@vkontakte/vkui/dist/vkui.css";
 import "./shop.css";
+import { request as api, assetUrl, photoUrl, juryRoomUrl, cartKey } from "./jury-api.js";
 import {
   Overview,
   Posts,
   Feed,
+  Clips,
   Market,
   Inbox,
   Conversation,
@@ -31,21 +36,6 @@ import {
 } from "./workbench.jsx";
 
 const rub = (n) => new Intl.NumberFormat("ru-RU").format(n) + " ₽";
-async function api(path, method = "GET", body) {
-  const res = await fetch("/api/" + path, {
-    method,
-    headers: { "Content-Type": "application/json" },
-    body: body === undefined ? undefined : JSON.stringify(body),
-  });
-  const data = await res.json();
-  if (!res.ok)
-    throw Error(
-      typeof data.detail === "string"
-        ? data.detail
-        : "Проверьте значения полей",
-    );
-  return data;
-}
 function Action({ children, onClick, secondary = false, disabled = false }) {
   return (
     <Button
@@ -77,8 +67,8 @@ function Photo({ p }) {
         p.image_data
           ? `data:${p.image_type || "image/webp"};base64,${p.image_data}`
           : p.id
-            ? `/api/products/${p.id}/photo?v=${p.version}`
-            : "/product-default.svg"
+            ? photoUrl(p.id, p.version)
+            : assetUrl("product-default.svg")
       }
       alt={p.title}
     />
@@ -201,6 +191,22 @@ function Edit({ product, commit, busy }) {
 function Shop() {
   const generation = useRef(0);
   const [syncNote, setSyncNote] = useState("");
+  const [shared, setShared] = useState(false);
+  const [manualLink, setManualLink] = useState("");
+  const shareTimer = useRef();
+  useEffect(() => () => clearTimeout(shareTimer.current), []);
+  async function shareRoom() {
+    const url = juryRoomUrl();
+    if (!url) return;
+    try {
+      await navigator.clipboard.writeText(url);
+      setShared(true);
+      clearTimeout(shareTimer.current);
+      shareTimer.current = setTimeout(() => setShared(false), 2300);
+    } catch {
+      setManualLink(url);
+    }
+  }
   const [store, setStore] = useState(null),
     [loading, load] = useState(true),
     [page, go] = useState("Обзор"),
@@ -217,14 +223,14 @@ function Shop() {
     [qty, count] = useState(1);
   const [cart, setCart] = useState(() => {
     try {
-      return JSON.parse(localStorage.getItem("warm-cart"));
+      return JSON.parse(localStorage.getItem(cartKey()));
     } catch {
       return null;
     }
   });
   function basket(v) {
     setCart(v);
-    localStorage.setItem("warm-cart", JSON.stringify(v));
+    localStorage.setItem(cartKey(), JSON.stringify(v));
   }
   async function refresh() {
     const ticket = ++generation.current;
@@ -326,6 +332,7 @@ function Shop() {
       ]
     : [
         ["Лента", Icon24MarketOutline],
+        ["Клипы", Icon24ClipOutline],
         ["Витрина", Icon24StorefrontOutline],
         ["Маркет", Icon24FavoriteOutline],
         ["Корзина", Icon24ShoppingCartOutline],
@@ -345,16 +352,15 @@ function Shop() {
         <div>
           <small>МАСТЕРСКАЯ КЕРАМИКИ</small>
           <h1>Тёплый дом</h1>
-          <p>
-            Посмотрите, как запись мастерской становится заказом. Выберите, с
-            чьей стороны начать.
-          </p>
-          <Action onClick={() => run(() => login("seller"))}>
-            Войти как продавец
-          </Action>{" "}
-          <Action secondary onClick={() => run(() => login("buyer"))}>
-            Войти как покупатель
-          </Action>
+          <p>Покупатель может выбрать кружку и оформить заказ. В кабинете продавца этот заказ можно подготовить и выдать.</p>
+          <div className="role-choices">
+            <button className="role-button seller-button" disabled={busy} onClick={() => run(() => login("seller"))}>
+              Войти как продавец
+            </button>
+            <button className="role-button buyer-button" disabled={busy} onClick={() => run(() => login("buyer"))}>
+              Войти как покупатель
+            </button>
+          </div>
         </div>
       </section>
     );
@@ -394,8 +400,10 @@ function Shop() {
     );
   else if (page === "Сообщения" && seller)
     content = <Inbox orders={orders} open={order} />;
+  else if (page === "Клипы" && !seller)
+    content = <Clips store={store} open={detail} />;
   else if (page === "Лента" && !seller)
-    content = <Feed store={store} open={detail} />;
+    content = <Feed store={store} open={detail} nav={nav} />;
   else if (page === "Маркет" && !seller)
     content = <Market store={store} open={detail} nav={nav} />;
   else if (["Каталог", "Витрина"].includes(page)) {
@@ -510,7 +518,7 @@ function Shop() {
     const saved = store.saved.includes(p.id);
     content = (
       <>
-        <div className="crumb">Тёплый дом › Витрина</div>
+        <div className="crumb">Тёплый дом › {origin.surface}</div>
         <section className="box detail">
           <Photo p={p} />
           <div>
@@ -870,14 +878,27 @@ function Shop() {
           <b>ВКонтакте</b>
           <span>{seller ? "Для бизнеса" : "Магазин сообщества"}</span>
           {store && (
+            <div className="shop-utilities">
+              {juryRoomUrl() && (
+                <button className="share-shop" onClick={shareRoom} aria-label={shared ? "Ссылка на магазин скопирована" : "Скопировать ссылку на магазин"} title="Скопировать ссылку на этот магазин">
+                  {shared ? <Icon24Done width={18} height={18} /> : <Icon28LinkOutline width={18} height={18} />}
+                  <span aria-live="polite">{shared ? "Скопировано" : "Ссылка на магазин"}</span>
+                </button>
+              )}
             <button
               className="switch"
+              title="Сменить роль в этом магазине"
               onClick={() => run(() => login(seller ? "buyer" : "seller"))}
             >
               {seller ? "Войти как покупатель" : "Войти как продавец"}
             </button>
+            </div>
           )}
         </div>
+        {manualLink && <div className="manual-share">
+          <label>Ссылка на этот магазин <input value={manualLink} readOnly onFocus={(e) => e.currentTarget.select()} autoFocus /></label>
+          <button onClick={() => setManualLink("")}>Закрыть</button>
+        </div>}
       </header>
       <div className={"layout " + (!store ? "solo" : "")}>
         {store && (
@@ -915,7 +936,7 @@ function Shop() {
   );
 }
 createRoot(document.getElementById("root")).render(
-  <ConfigProvider>
+  <ConfigProvider colorScheme="light">
     <AdaptivityProvider>
       <AppRoot>
         <Shop />

@@ -9,7 +9,7 @@ import zxingcpp
 
 def verify(path, preview_dir=None):
     public = "https://egorchulanov.github.io/vk-case-2026/"
-    expected = {6: public + "journey.html", 12: public + "model.xlsx", 14: public}
+    expected = {6: public + "journey.html", 7: public + "prototype/", 12: public + "model.xlsx", 14: public}
     reader = PdfReader(path)
     rendered = pypdfium2.PdfDocument(path)
     assert len(reader.pages) == len(rendered) == 14

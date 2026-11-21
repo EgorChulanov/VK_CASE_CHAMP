@@ -12,11 +12,11 @@ await build({
   format: "esm",
   target: "es2022",
   define: { "process.env.NODE_ENV": '"production"' },
-  external: ["/*.woff", "/*.webp"],
+  external: ["*.woff2", "*.webp"],
   loader: { ".svg": "dataurl", ".png": "dataurl" },
 });
 const template = await readFile("index.html", "utf8");
 await writeFile(
   outdir + "/index.html",
-  template.replace('src="/shop.jsx"', 'src="/shop.js"').replace("</title>", '</title><link rel="stylesheet" href="/shop.css">'),
+  template.replace('src="./shop.jsx"', 'src="./shop.js"').replace("</title>", '</title><link rel="stylesheet" href="./shop.css">'),
 );

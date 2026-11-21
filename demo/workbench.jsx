@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { assetUrl, photoUrl } from "./jury-api.js";
 import {
   Icon24ArrowRightOutline,
   Icon24StorefrontOutline,
@@ -234,7 +235,7 @@ export function Posts({ store, publish, busy }) {
               key={p.id}
               onClick={() => select(p.id)}
             >
-              <img src={"/api/products/" + p.product + "/photo"} alt="" />
+              <img src={photoUrl(p.product)} alt="" />
               <span className="pub-text">
                 <b>{p.text}</b>
                 <small>
@@ -284,7 +285,7 @@ export function Posts({ store, publish, busy }) {
   );
 }
 
-export function Feed({ store, open }) {
+export function Feed({ store, open, nav }) {
   const products = new Map(store.products.map((p) => [p.id, p]));
   return (
     <>
@@ -293,6 +294,13 @@ export function Feed({ store, open }) {
         <h1>Мастерская «Тёплый дом»</h1>
         <p>Керамика ручной работы в Москве</p>
       </div>
+      {products.get(2)?.published && (
+        <button className="feed-clip-link" onClick={() => nav("Клипы")}>
+          <img src={assetUrl("cup-2.webp")} alt="" />
+          <span><small>VK Клипы</small><strong>После обжига</strong></span>
+          <span className="watch-clip">Смотреть <Icon24ArrowRightOutline width={16} height={16} /></span>
+        </button>
+      )}
       <h2 className="feed-label">Записи сообщества</h2>
       <div className="post-feed">
         {store.posts.map((post) => {
@@ -310,7 +318,7 @@ export function Feed({ store, open }) {
               <p>{post.text}</p>
               <img
                 className="feed-shot"
-                src={"/api/products/" + p.id + "/photo?v=" + p.version}
+                src={photoUrl(p.id, p.version)}
                 alt={p.title}
               />
               <div className="product-attachment">
@@ -330,6 +338,41 @@ export function Feed({ store, open }) {
         })}
       </div>
     </>
+  );
+}
+
+export function Clips({ store, open }) {
+  const item = store.products.find((p) => p.id === 2 && p.published);
+  return (
+    <section className="clips">
+      <div className="page-intro"><h1>Клипы сообщества</h1></div>
+      <article className="clip-story">
+        <video
+          className="clip-video"
+          aria-label="После обжига. Общий вид кружки, голубая глазурь и край без глазури"
+          src={assetUrl("morning-cup.mp4")}
+          poster={assetUrl("morning-cup-poster.webp")}
+          controls
+          playsInline
+          muted
+          preload="metadata"
+        />
+        <div className="clip-info">
+          <div className="post-author">
+            <span className="round-avatar">Тд</span>
+            <span><b>Тёплый дом</b><small>Мастерская керамики</small></span>
+          </div>
+          <h2>После обжига</h2>
+          <p>Три детали утренней партии. Показываем полосы голубой глазури, ручку и рыжий край у донышка.</p>
+          <h3>Товар в клипе</h3>
+          {item ? <button className="clip-tag" onClick={() => open(item, "Клипы")}>
+            <img src={photoUrl(item.id, item.version)} alt="" />
+            <span><b>{item.title}</b><small>{rub(item.price)}{item.stock ? " в наличии" : ", распродано"}</small></span>
+            <Icon24ArrowRightOutline />
+          </button> : <p>Сейчас товара нет в витрине.</p>}
+        </div>
+      </article>
+    </section>
   );
 }
 
@@ -429,7 +472,7 @@ export function Market({ store, open, nav }) {
             <article className="product" key={p.id}>
               <img
                 className="photo"
-                src={"/api/products/" + p.id + "/photo?v=" + p.version}
+                src={photoUrl(p.id, p.version)}
                 alt={p.title}
               />
               <h3>{p.title}</h3>

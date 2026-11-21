@@ -1,8 +1,179 @@
 <!doctype html>
-<html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Карта пути продавца и покупателя | Digital Cat$</title>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Карта пути продавца и покупателя | VK Case Champ</title>
 <style>
-:root{color-scheme:light;--blue:#0064cd;--ink:#102842;--soft:#edf4fb}*{box-sizing:border-box}body{margin:0;background:#fff;color:var(--ink);font:17px/1.5 system-ui,-apple-system,sans-serif}main,header,footer{max-width:1180px;margin:auto;padding:32px 5vw}header{padding-top:48px}h1{font-size:clamp(34px,5vw,64px);line-height:1.02;letter-spacing:-.045em;max-width:850px;margin:14px 0 20px}h2,h3,p{margin:0}header>p{max-width:880px;font-size:19px}.mark,small,dt{color:var(--blue);font-weight:650}.actions,nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}button,nav a{font:inherit;font-size:15px;background:var(--soft);border:0;padding:9px 14px;border-radius:999px;cursor:pointer;color:var(--ink)}button[aria-pressed=true]{background:var(--blue);color:white}nav a{text-decoration:none}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(290px,100%),1fr));gap:22px}section{display:grid;grid-template-columns:190px 1fr;gap:24px;border-top:2px solid #cdddec;padding:26px 0;scroll-margin-top:18px}.stage h2{font-size:27px;letter-spacing:-.03em}.stage p{color:#516980}article{border-left:3px solid #87bfff;padding:4px 0 3px 17px}article[data-role=buyer]{border-color:#2ca88e}article>span{color:#49627a;font-size:14px}article h3{font-size:22px;line-height:1.18;margin:4px 0 13px}dt{font-size:13px;margin:12px 0 2px}dd{margin:0}dl{margin:0}.branches{background:var(--soft);padding:22px;border-radius:18px}.branches p{margin-top:8px}.foot{font-size:15px;color:#516980}footer{padding-top:0}a{color:var(--blue)}[hidden]{display:none!important}@media(max-width:740px){section{grid-template-columns:1fr;gap:12px}.cards{grid-template-columns:1fr}header,main,footer{padding:22px 5vw}}@media print{.actions,nav{display:none}article[hidden]{display:block!important}section,article{break-inside:avoid}body{font-size:13px}}
-</style><header><span class="mark">Digital Cat$</span><h1>Карта пути продавца и покупателя</h1><p>Продавец ведёт магазин в сообществе. Покупатель видит вещь в записи, выбирает получение и возвращается за покупкой. На каждом этапе показаны действия обеих сторон и события, по которым можно проверить работу продукта.</p>
-<nav aria-label="Этапы">{{stage_links}}</nav><div class="actions" role="group" aria-label="Показать участников"><button data-filter="all" aria-pressed="true">Обе стороны</button><button data-filter="seller" aria-pressed="false">Только продавец</button><button data-filter="buyer" aria-pressed="false">Только покупатель</button></div></header>
-<main>{{stages}}<div class="branches"><h2>Три исхода после открытия товара</h2><p><strong>Заказ внутри VK.</strong> Есть номер, товар и условия. Можно связать оформление с выдачей или отменой.</p><p><strong>Договорились в сообщениях.</strong> Сохраняем обращение. Оплату и получение подтверждает продавец отдельно.</p><p><strong>Ушли на сайт партнёра.</strong> До получения данных партнёра известен только переход. Оплаченный заказ требует отдельного подтверждения.</p></div></main><footer class="foot">Карта описывает предложенный путь. Возможные вопросы и препятствия предстоит проверить в интервью и на пользовательских тестах. Данные кейса отражают сентябрь 2026 года.</footer>
-<script>document.querySelector('.actions').addEventListener('click',e=>{const button=e.target.closest('button');if(!button)return;const role=button.dataset.filter;document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));document.querySelectorAll('article[data-role]').forEach(a=>a.hidden=role!=='all'&&a.dataset.role!==role)})</script></html>
+@font-face{font-family:VKText;src:url('{{font_Regular}}') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:VKText;src:url('{{font_Medium}}') format('woff2');font-style:normal;font-weight:500;font-display:swap}
+@font-face{font-family:VKText;src:url('{{font_DemiBold}}') format('woff2');font-style:normal;font-weight:600 900;font-display:swap}
+:root{color-scheme:light;--ink:#152d45;--muted:#506980;--blue:#065ec1;--line:#d8e3ec;--paper:#fff;--axis:144px;--col:176px;--note:13px;--buyer:#0062ce;--seller:#126954}
+*{box-sizing:border-box}body{margin:0;background:#f4f7fa;color:var(--ink);font:400 15px/1.4 VKText,Arial,sans-serif}a{color:var(--blue)}button,select{font:inherit;color:inherit}button,select,a{touch-action:manipulation}button{cursor:pointer}button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible,[tabindex]:focus-visible{outline:3px solid #f09e1e;outline-offset:2px}h1,h2,h3,p,dl,dd{margin:0}button{border:0;background:none}main{max-width:1880px;margin:auto;padding:0 clamp(14px,2.8vw,52px) 30px}header{border-bottom:1px solid var(--line);background:#fff}.head{max-width:1880px;margin:auto;padding:25px clamp(14px,2.8vw,52px) 20px}.head h1{font-size:clamp(30px,3.5vw,52px);letter-spacing:-.045em;line-height:1.06;margin:8px 0 6px}.head p{color:var(--muted);max-width:980px}.breadcrumb{display:flex;align-items:center;gap:11px;font-size:13px}.breadcrumb a{text-decoration:none}.breadcrumb span{color:var(--muted)}.workspace{display:grid;grid-template-columns:246px minmax(0,1fr);gap:18px;align-items:start}.sidebar,.content{min-width:0}.sidebar>section,.map,.mobile-step{background:white;border:1px solid var(--line);border-radius:12px}.sidebar>section{padding:17px;margin-bottom:12px}.sidebar h2{font-size:19px;letter-spacing:-.03em}.sidebar h3{font-size:15px}.sidebar p,.sidebar li{font-size:13px;line-height:1.4}.profile{margin-top:13px}.profile+.profile{border-top:1px solid var(--line);padding-top:12px}.profile p{margin:5px 0;color:#41586c}.profile dt{text-transform:uppercase;letter-spacing:.065em;font-size:10px;font-weight:600;color:var(--muted);margin-top:8px}.profile dd{font-size:13px}.actor{display:inline-flex;align-items:center;gap:6px;color:var(--buyer);font-size:12px;font-weight:600}.actor:before,.legend-dot{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--buyer)}.actor.seller{color:var(--seller)}.actor.seller:before,.seller-dot{background:var(--seller);border-radius:1px}.legend-list{padding:0;list-style:none;display:grid;gap:7px;margin:9px 0 0}.sample{display:inline-block;width:12px;height:12px;border:1px solid #0002;border-radius:2px;margin-right:6px;vertical-align:-1px}.goal-note{background:#e5f4cf}.action-note{background:#dcecff}.risk-note{background:#f6e2f2}.service-note{background:#eeeaff}.proof-note{background:#fff1b5}.quiet,.sidebar small{font-size:12px;color:var(--muted)}.sidebar details{font-size:13px}.sidebar summary{cursor:pointer;font-weight:600}.sidebar details p{margin-top:7px}.tools{margin:18px 0 12px;display:flex;align-items:flex-end;gap:15px;flex-wrap:wrap}.control label,.control>.caption{display:block;font-size:11px;letter-spacing:.02em;color:var(--muted);font-weight:600;margin:0 0 4px}.control select{background:white;border:1px solid #bccbd7;border-radius:7px;padding:7px 28px 7px 9px;max-width:100%}.seg{display:flex;gap:3px;background:#e6edf4;padding:3px;border-radius:8px}.seg button{font-size:13px;font-weight:500;padding:6px 10px;border-radius:6px;color:#324f65}.seg button[aria-pressed=true]{background:#fff;color:#074c95;box-shadow:0 1px 3px #24436125}.tools .view{margin-left:auto}.atlas{margin:0 0 14px}.atlas h2{font-size:13px;margin-bottom:4px}.overview{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:3px}.overview a{display:block;padding:7px 9px;border:1px solid transparent;border-radius:6px;font-size:13px;color:#244a4e;text-decoration:none;background:#dff4e9;line-height:1.25}.overview a:nth-child(even){background:#dceff7;color:#225071}.overview a[aria-current=true]{border-color:#024d96;box-shadow:inset 0 0 0 1px #024d96}.overview a small{display:block;font-size:10px;font-weight:500;opacity:.8}.overview a strong{font-weight:600}.map{overflow:hidden}.map-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 15px}.map-head h2{font-size:20px;letter-spacing:-.03em}.map-head span{font-size:12px;color:var(--muted)}.viewport{max-height:min(80vh,1080px);overflow:auto;scrollbar-color:#92a7b9 #e8eff5;isolation:isolate;border-top:1px solid var(--line)}.board{border-collapse:separate;border-spacing:0;table-layout:fixed;width:calc(var(--axis) + var(--n)*var(--col));font-size:var(--note);line-height:1.35}.board col:first-child{width:var(--axis)}.board col:not(:first-child){width:var(--col)}.board th,.board td{text-align:left;vertical-align:top;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:7px;background:#fafbfd}.board th[scope=row],.board .axis-top{position:sticky;left:0;background:#f5f8fa;z-index:2;color:#314c63;font-weight:600;padding:9px 10px}.board .phase-row th{position:sticky;top:0;z-index:4;background:#d9f0e4;height:32px;padding:6px 9px;font-size:12px;color:#214c43}.board .phase-row th.alt{background:#d9eaf5;color:#244962}.board .phase-row .axis-top,.board .step-row .axis-top{z-index:6;background:#edf3f7}.board .step-row th{position:sticky;top:32px;background:white;z-index:3;padding:8px 8px 7px;vertical-align:top}.board .step-row .actor{font-size:10px;display:flex}.step-title{margin-top:4px;font-size:calc(var(--note) + 1px);font-weight:600}.step-title em{font-style:normal;color:#658198;font-size:10px;margin-right:5px}.stick{padding:7px 8px;border-radius:2px;min-height:37px;color:#203b4f;box-shadow:0 1px 1px #1632471a}.board th small{display:block;font-size:10px;color:var(--muted);font-weight:400;margin-top:4px}.board .wide-chart{padding:0;background:#fff;vertical-align:middle}.chart{display:block;width:100%;height:92px}.board .section-row th,.board .section-row td{background:#dce8f1;color:#28485e}.board .section-row td{font-size:12px;padding:10px}.screen-row td{height:78px;text-align:center}.screen-row img{max-width:100%;height:55px;object-fit:contain;vertical-align:middle}.screen-row button{color:var(--blue);font-size:11px;text-align:center;width:100%}.screen-row button span{display:block}.screen-row td:empty:after{content:""}.map-footer{display:flex;flex-wrap:wrap;gap:8px 14px;padding:8px 14px;color:#466076;font-size:12px}.note-row{margin:11px 0;font-size:12px;color:var(--muted)}.blank{padding:23px}.blank button{display:block;margin-top:12px;color:var(--blue);font-weight:600}.step-nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px}.step-nav button{font-size:13px;border:1px solid var(--line);background:#fff;border-radius:6px;padding:7px 10px}.step-nav button:disabled{opacity:.45;cursor:default}.step-nav select{min-width:0;max-width:56%;font-size:13px;padding:6px;border:1px solid var(--line);border-radius:6px;background:white}.mobile-step{padding:17px}.mobile-step h2{font-size:24px;letter-spacing:-.035em;margin:4px 0 12px}.mobile-step dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(235px,100%),1fr));gap:8px}.mobile-step dl>div{border:1px solid var(--line);border-radius:6px;padding:8px 10px}.mobile-step dt{font-size:12px;color:#385873;font-weight:600;margin-bottom:3px}.mobile-step dd{font-size:14px}.mobile-step h3{margin:16px 0 7px;font-size:16px}.mobile-step .screen-row{display:flex;align-items:center;gap:10px;color:var(--blue);font-size:13px;margin:11px 0 0}.mobile-step .screen-row img{height:65px}.support{margin-top:14px;background:white;border:1px solid var(--line);border-radius:12px;padding:12px 15px}.support summary{font-size:14px;cursor:pointer;font-weight:600}.support p{margin:7px 0;color:#405b70;font-size:13px}.support a{overflow-wrap:anywhere}.end{margin:16px 0;font-size:12px;color:var(--muted)}[hidden]{display:none!important}dialog{border:0;border-radius:10px;padding:15px;max-width:min(96vw,940px);color:var(--ink);font:inherit}dialog::backdrop{background:#132c42b8}dialog img{display:block;max-width:100%;max-height:72vh;margin:auto}dialog button{float:right;color:var(--blue);font-weight:600}dialog p{clear:both;padding:8px 0}.legend-roles{display:flex;gap:14px;flex-wrap:wrap}.legend-roles .actor{font-size:11px}
+@media(max-width:1050px){.workspace{grid-template-columns:200px minmax(0,1fr)}.tools{gap:8px}.overview a{font-size:12px}.sidebar>section{padding:12px}}
+@media(max-width:800px){.workspace{display:flex;flex-direction:column}.content{width:100%;order:0}.sidebar{width:100%;order:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:12px}.sidebar>section{margin-bottom:0}.overview{grid-template-columns:repeat(3,minmax(0,1fr))}.tools .view{margin-left:0}.head{padding-top:18px}.tools{align-items:flex-start}.viewport{max-height:72vh}.board{--axis:99px}.map-head{padding:9px}.map-head h2{font-size:17px}}@media(max-width:410px){.seg button{padding:6px 8px}.head h1{font-size:31px}}
+@media print{header,.tools,.atlas,.sidebar,.support,.map,.step-nav,.end{display:none}body,main,.workspace,.content{margin:0;padding:0;display:block;background:white}.mobile-step{break-inside:avoid;margin:8px 0;border:0}.step-nav+article{display:block}}
+</style></head><body>
+<header><div class="head"><div class="breadcrumb"><a href="https://egorchulanov.github.io/vk-case-2026/">Материалы команды</a><span aria-hidden="true">›</span><span>Карта пути</span></div>
+<h1>Карта пути продавца и покупателя</h1><p>Как кружка из мастерской попадает в публикацию, становится заказом и доходит до покупателя. 24 шага от выбора партии до следующей продажи.</p></div></header>
+<main><div class="tools"><div class="control"><span class="caption">Участники</span><div class="seg" id="roles" role="group" aria-label="Участники"><button data-filter="all" aria-pressed="true">Обе стороны</button><button data-filter="buyer" aria-pressed="false">Покупатель</button><button data-filter="seller" aria-pressed="false">Продавец</button></div></div>
+<div class="control"><label for="phase">Этап</label><select id="phase"><option value="all">Весь путь</option></select></div>
+<div class="control view"><span class="caption">Вид</span><div class="seg" id="views" role="group" aria-label="Вид карты"><button data-view="board">Доска</button><button data-view="steps">По шагам</button></div></div>
+<div class="control" id="zoom-control"><label for="zoom">Масштаб доски</label><select id="zoom"><option value="fit">Вся доска</option><option value="compact">Компактно</option><option value="normal" selected>Обычно</option><option value="large">Крупно</option></select></div></div>
+<nav class="atlas" aria-label="Этапы карты"><div class="overview" id="overview"></div></nav>
+<div class="workspace"><aside class="sidebar"><section><h2>Участники и задачи</h2><div class="profile"><span class="actor buyer">Покупатель</span><h3>Выбирает вещь для дома</h3><p>Замечает кружку в публикации. Сравнивает цену и получение, иногда откладывает выбор.</p><dl><dt>Задача</dt><dd>«Хочу купить ту самую вещь и заранее знать, когда её получу».</dd></dl></div><div class="profile"><span class="actor seller">Продавец</span><h3>Мастер небольшой партии</h3><p>Сам ведёт каталог, отвечает в сообщениях и передаёт заказы.</p><dl><dt>Задача</dt><dd>«Хочу понять, какую вещь отложить и какая публикация привела покупателя».</dd></dl></div><p class="quiet" style="margin-top:10px">Сценарные профили. Мотивы и вопросы предстоит проверить в интервью.</p></section>
+<section><h2>Как читать карту</h2><ul class="legend-list"><li><i class="sample goal-note"></i>Цель шага</li><li><i class="sample action-note"></i>Действие и вопрос</li><li><i class="sample risk-note"></i>Возможный барьер</li><li><i class="sample service-note"></i>Работа сервиса</li><li><i class="sample proof-note"></i>Требует проверки в поле</li></ul><p class="quiet" style="margin-top:10px">Обе кривые показывают предположения команды. В кейсе нет интервью или оценок отдельных покупателей.</p></section>
+<section><details><summary>Границы сценария</summary><p>Номер появляется при оформлении внутри VK. Для договорённости в чате или продажи на сайте партнёра нужен отдельный способ подтвердить покупку. Оплата и физическая выдача происходят за пределами учебного сервиса.</p></details></section></aside>
+<div class="content"><div id="board-view" class="map"><div class="map-head"><h2>CJM и Service Blueprint</h2><span id="count" aria-live="polite"></span></div><div id="viewport" class="viewport" role="region" aria-label="Доска. Прокрутка по шагам и строкам" tabindex="0"></div><div class="map-footer"><span class="actor buyer">Покупатель</span><span class="actor seller">Продавец</span><span>Прокручивайте вправо по шагам, вниз к работе сервиса и проверке.</span></div></div><div id="step-view" hidden></div>
+<div id="empty" class="blank" hidden><b>На этом этапе действует другая сторона.</b><button id="resetrole">Показать обе стороны</button></div>
+<details class="support"><summary>Основания и проверка карты</summary><p><b>Данные кейса.</b> В сентябрьской выборке 9 754 бизнеса. Данные по площадкам показывают, где открывали товары. Из них нельзя восстановить маршрут конкретного человека или узнать его эмоции.</p><p><b>Консультация VK, 22:15 и 46:00.</b> Оформление отличается от оплаты. Витрина принадлежит сообществу, а Маркет собирает товары разных сообществ.</p><p><b>Прототип команды.</b> Внизу каждого шага указано действие для проверки. Выдачу и отмену проверяют на разных заказах. Для полевых шагов указан вопрос или наблюдение, которое ещё предстоит собрать.</p><p><a href="https://egorchulanov.github.io/vk-case-2026/model.xlsx">Агрегированные расчёты</a></p></details></div></div>
+</main><dialog id="media"><button id="close-media">Закрыть</button><p id="caption"></p><img id="big-screen" alt=""></dialog>
+<template id="screens"><img data-key="catalog" src="{{catalog}}" alt="Обзор кабинета продавца"><img data-key="clip" src="{{clip}}" alt="Короткий клип мастерской с меткой товара"><img data-key="product" src="{{product}}" alt="Карточка товара из публикации"><img data-key="order" src="{{order}}" alt="Заказ покупателя"><img data-key="publication" src="{{publication}}" alt="Аналитика публикации магазина"></template>
+<script id="journey-data" type="application/json">{{data}}</script>
+<script>
+'use strict';
+const data = JSON.parse(document.querySelector('#journey-data').textContent);
+const steps = data.steps.map((s,i) => ({...s, number:i+1, phase:Math.floor(i/4)}));
+const names = {buyer:'Покупатель',seller:'Продавец'};
+const marks = {buyer:'#1266bd',seller:'#177456'};
+const mediaKeys = {2:'catalog',5:'publication',7:'clip',8:'product',9:'product',15:'order',16:'catalog',21:'order',22:'publication'};
+const screens = Object.fromEntries([...document.querySelector('#screens').content.querySelectorAll('img')].map(i=>[i.dataset.key,i]));
+const boardRows = [
+ ['Цель шага','goal','goal-note'],['Действие','action','action-note'],['Вопрос участника','question','action-note'],
+ ['Эмоции','feeling'],['Важность','importance'],['Причина оценки','reason',''],['Возможный барьер','barrier','risk-note'],['Точка контакта','touch',''],
+ ['Service Blueprint','section'],['Что видит участник','front','service-note'],['Что происходит внутри','back','service-note'],
+ ['Что измерим','signal','goal-note'],['Как проверить','check','proof'],['Экраны прототипа','image']
+];
+const $=s=>document.querySelector(s);
+const element=(tag,cls='',value='')=>{const node=document.createElement(tag);if(cls)node.className=cls;if(value!=='')node.textContent=value;return node};
+const tagRole=r=>element('span','actor '+r,names[r]);
+const two=n=>String(n).padStart(2,'0');
+const numberLabel=s=>two(s.number)+' '+s.title;
+const proofType=s=>s.evidence==='field'?'Проверить в поле':'Пройти в прототипе';
+const evidenceCell=s=>{const box=element('div','stick '+(s.evidence==='field'?'proof-note':'action-note'));box.append(element('b','',proofType(s)),element('div','',s.check));return box};
+const feelingNames={'-2':'Очень неудобно','-1':'Есть сомнение','0':'Нейтрально','1':'Спокойно','2':'Уверенно'};
+const importanceNames=['','Низкая','Средняя','Высокая'];
+let role='all', phase='all', view=window.innerWidth<801?'steps':'board', selected=1;
+const chosen=()=>steps.filter(s=>(role==='all'||s.actor===role)&&(phase==='all'||s.phase===Number(phase)));
+const stageHref=i=>'#stage-'+(i+1);
+const scaleHints={feeling:'−2 очень неудобно, 0 нейтрально, +2 уверенно',importance:'1 низкая, 2 средняя, 3 высокая'};
+function scaleName(key,v){return key==='feeling'?(v>0?'+'+v:v)+' '+feelingNames[v]:v+' '+importanceNames[v]}
+function chart(key,visible) {
+ const ns='http://www.w3.org/2000/svg', svg=document.createElementNS(ns,'svg');
+ const set=(node,attrs)=>{Object.entries(attrs).forEach(([k,v])=>node.setAttribute(k,v));return node};
+ const shape=(tag,attrs,parent=svg)=>{const node=set(document.createElementNS(ns,tag),attrs);parent.append(node);return node};
+ const size=160, width=size*visible.length, minimum=key==='feeling'?-2:1,maximum=key==='feeling'?2:3;
+ const y=v=>66-(v-minimum)/(maximum-minimum)*46;
+ set(svg,{viewBox:'0 0 '+width+' 92',preserveAspectRatio:'none',class:'chart',role:'img','aria-label':visible.map(s=>two(s.number)+'. '+names[s.actor]+': '+scaleName(key,s[key])).join('. ')});
+ for(let v=minimum;v<=maximum;v++)shape('line',{x1:0,x2:width,y1:y(v),y2:y(v),stroke:v===0?'#aebfcf':'#e1e9ef','stroke-width':1});
+ ['buyer','seller'].forEach(actor=>{
+  const points=visible.map((s,i)=>({s,x:size*(i+.5),y:y(s[key])})).filter(p=>p.s.actor===actor);
+  // Break the trace across the other participant's turn; the empty span has no inferred rating.
+  for(let j=1;j<points.length;j++){
+   const p=points[j-1],q=points[j];
+   if(q.s.number===p.s.number+1)shape('line',{x1:p.x,y1:p.y,x2:q.x,y2:q.y,stroke:marks[actor],'stroke-width':2});
+  }
+  points.forEach(({s,x,y})=>{
+   const node=actor==='seller'?shape('rect',{x:x-4,y:y-4,width:8,height:8,rx:1,fill:marks[actor]}):shape('circle',{cx:x,cy:y,r:4.5,fill:marks[actor]});
+   shape('title',{},node).textContent=numberLabel(s)+': '+scaleName(key,s[key]);
+   const value=s[key]>0&&key==='feeling'?'+'+s[key]:s[key];
+   shape('text',{x,y:y+17,'font-family':'VKText, sans-serif','font-size':11,'text-anchor':'middle',fill:marks[actor]}).textContent=value;
+  });
+ });
+ return svg;
+}
+function screenButton(s){
+ const original=screens[mediaKeys[s.number]];
+ if(!original)return null;
+ const b=element('button'); b.type='button';const img=original.cloneNode();img.alt='';img.loading='lazy';
+ b.append(img,element('span','',original.alt));
+ b.onclick=()=>{$('#caption').textContent=original.alt;$('#big-screen').src=original.src;$('#big-screen').alt=original.alt;$('#media').showModal()};
+ return b;
+}
+function board(visible){
+ const table=element('table','board');table.style.setProperty('--n',visible.length);table.setAttribute('aria-label','Карта пути и процессы сервиса');
+ const cols=element('colgroup');for(let i=0;i<=visible.length;i++)cols.append(element('col'));table.append(cols);
+ const head=element('thead'),bands=element('tr','phase-row'),stepsRow=element('tr','step-row');
+ head.append(bands,stepsRow);table.append(head);bands.append(element('th','axis-top','Этап'));stepsRow.append(element('th','axis-top','Шаг и участник'));
+ data.phases.forEach((p,i)=>{const filtered=visible.filter(s=>s.phase===i);if(!filtered.length)return;
+  const th=element('th',i%2?'alt':'',p);th.scope='colgroup';th.colSpan=filtered.length;bands.append(th)});
+ visible.forEach(s=>{const th=element('th');th.scope='col';th.dataset.step=s.number;th.append(tagRole(s.actor));
+  const title=element('div','step-title');title.append(element('em','',two(s.number)),document.createTextNode(s.title));th.append(title);stepsRow.append(th)});
+ const body=element('tbody');table.append(body);
+ boardRows.forEach(([label,key,name])=>{
+  const row=element('tr',key==='section'?'section-row':key==='image'?'screen-row':'');
+  const axis=element('th','',label);axis.scope='row';row.append(axis);body.append(row);
+  if(key==='section'){const text=element('td','','Действия сервиса от первого контакта до сверки результата.');text.colSpan=visible.length;row.append(text);return}
+  if(key==='feeling'||key==='importance'){axis.append(element('small','',scaleHints[key]),element('small','','Гипотеза команды'));
+   const td=element('td','wide-chart');td.colSpan=visible.length;td.append(chart(key,visible));row.append(td);return}
+  visible.forEach(s=>{
+   const td=element('td');td.dataset.step=s.number;row.append(td);
+   if(key==='image'){const b=screenButton(s);if(b)td.append(b);return}
+   if(key==='check'){td.append(evidenceCell(s));return}
+   td.append(element('div',name?'stick '+name:'',s[key]));
+  });
+ });
+ return table;
+}
+function stepCards(visible){
+ const wrapper=element('div');const s=visible.find(s=>s.number===selected)||visible[0];if(!s)return wrapper;selected=s.number;
+ const i=visible.indexOf(s), nav=element('div','step-nav');nav.setAttribute('aria-label','Выбор шага');const prev=element('button','','Назад'),next=element('button','','Далее');
+ prev.disabled=i===0;next.disabled=i===visible.length-1;
+ const choose=n=>{selected=n;render()};
+ prev.onclick=()=>choose(visible[i-1].number);next.onclick=()=>choose(visible[i+1].number);
+ const picker=element('select');picker.setAttribute('aria-label','Шаг карты');
+ visible.forEach(t=>{const o=element('option','',numberLabel(t));o.value=t.number;o.selected=t.number===selected;picker.append(o)});
+ picker.onchange=()=>choose(Number(picker.value));nav.append(prev,picker,next);wrapper.append(nav);
+ const article=element('article','mobile-step');article.dataset.role=s.actor;article.dataset.step=s.number;
+ article.append(tagRole(s.actor),element('h2','',numberLabel(s)),element('p','quiet',data.phases[s.phase]));
+ const makeFields=(rows)=>{const dl=element('dl');rows.forEach(([label,key,cls])=>{
+  const group=element('div',key==='check'?(s.evidence==='field'?'proof-note':'action-note'):cls||'');
+  group.append(element('dt','',label),element('dd','',key==='feeling'||key==='importance'?scaleName(key,s[key]):key==='check'?proofType(s)+'. '+s.check:s[key]));dl.append(group)});return dl};
+ article.append(element('h3','','Путь участника'),makeFields(boardRows.slice(0,boardRows.findIndex(r=>r[1]==='section'))));
+ article.append(element('p','quiet','Эмоции и важность оценены командой.'),element('h3','','Service Blueprint'),makeFields(boardRows.slice(boardRows.findIndex(r=>r[1]==='section')+1,-1)));
+ const thumb=screenButton(s);if(thumb){thumb.className='screen-row';article.append(thumb)}
+ wrapper.append(article);return wrapper;
+}
+function render() {
+ const visible=chosen();if(!visible.some(s=>s.number===selected)&&visible.length)selected=visible[0].number;
+ $('#count').textContent='Шагов: '+visible.length+' из 24';$('#phase').value=phase;
+ document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===role)));
+ document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===view)));
+ document.querySelectorAll('#overview a').forEach((a,i)=>a.setAttribute('aria-current',String(String(i)===phase)));
+ $('#zoom-control').hidden=view!=='board';$('#board-view').hidden=view!=='board'||!visible.length;$('#step-view').hidden=view!=='steps'||!visible.length;
+ $('#empty').hidden=visible.length>0;
+ const vp=$('#viewport');
+ if(view==='board'&&visible.length){vp.replaceChildren(board(visible));applyZoom();vp.scrollTo(0,0)}else{vp.replaceChildren()}
+ $('#step-view').replaceChildren(...(view==='steps'&&visible.length?[stepCards(visible)]:[]));
+}
+function selectPhase(value){
+ phase=value; const wanted=phase==='all'?'#all':stageHref(Number(phase));
+ if(location.hash!==wanted){try{history.replaceState(null,'',wanted)}catch{location.hash=wanted}}
+ render();
+}
+data.phases.forEach((p,i)=>{
+ const option=element('option','',two(i*4+1)+'–'+two(i*4+4)+'  '+p);option.value=i;$('#phase').append(option);
+ const link=element('a');link.href=stageHref(i);link.append(element('small','',two(i*4+1)+'–'+two(i*4+4)),element('strong','',p));
+ link.onclick=e=>{e.preventDefault();selectPhase(String(i))};$('#overview').append(link);
+});
+$('#phase').onchange=e=>selectPhase(e.target.value);
+$('#roles').onclick=e=>{const b=e.target.closest('[data-filter]');if(b){role=b.dataset.filter;render()}};
+$('#views').onclick=e=>{const b=e.target.closest('[data-view]');if(b){view=b.dataset.view;render()}};
+$('#resetrole').onclick=()=>{role='all';render()};
+function applyZoom(){
+ const viewport=$('#viewport'),table=viewport.querySelector('.board');if(!table)return;
+ const mode=$('#zoom').value,settings={compact:['126px','12px'],normal:['176px','13px'],large:['224px','16px'],fit:['158px','13px']}[mode];
+ document.documentElement.style.setProperty('--col',settings[0]);document.documentElement.style.setProperty('--note',settings[1]);
+ table.style.zoom=1;
+ if(mode==='fit'){table.style.zoom=Math.min(1,viewport.clientWidth/table.offsetWidth)}
+ $('.map-footer>span:last-child').textContent=mode==='fit'?'Нажмите на шаг, чтобы прочитать его целиком.':'Прокручивайте вправо по шагам, вниз к работе сервиса и проверке.';
+}
+$('#zoom').onchange=applyZoom;
+new ResizeObserver(()=>{if($('#zoom').value==='fit')applyZoom()}).observe($('#board-view'));
+$('#viewport').addEventListener('click',e=>{
+ const target=e.target.closest('[data-step]');if($('#zoom').value==='fit'&&target&&!e.target.closest('button')){
+  selected=Number(target.dataset.step);view='steps';render();
+ }
+});
+$('#close-media').onclick=()=>$('#media').close();
+$('#media').addEventListener('click',e=>{if(e.target===$('#media'))$('#media').close()});
+function loadHash(){const match=/^#stage-([1-6])$/.exec(location.hash);phase=match?String(Number(match[1])-1):'all';render()}
+window.addEventListener('hashchange',loadHash);loadHash();
+</script></body></html>
