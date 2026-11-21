@@ -36,7 +36,9 @@ def verify(path, preview_dir=None):
                 "как использовали ии",
                 "openai codex",
                 "whisper",
-                "что перепроверили",
+                "imagegen",
+                "apple vision",
+                "предложение команды",
                 "по исходной книге",
                 "до выдачи заказа",
             ):
@@ -62,16 +64,24 @@ def verify(path, preview_dir=None):
                     for t in ["file:", "localhost", "127.0.0.1", "/VK_CASE_CHAMP"]
                 ), url
                 urls.append(url)
+        if i == 1:
+            assert "москва, 2026" in words and "digital cat$" in words
         if i == 2:
             compact = " ".join(text.split())
-            for name in (
-                "Егор Чуланов",
-                "Екатерина Макаренко",
-                "Максим Ширяев",
-                "Анфиса Опарина",
+            for name, role in (
+                ("Егор Чуланов", "Продукт и прототип"),
+                ("Екатерина Макаренко", "Исследование и путь покупателя"),
+                ("Максим Ширяев", "Данные и эксперимент"),
+                ("Анфиса Опарина", "Экономика и запуск"),
             ):
-                assert name in compact, (i, name)
-            assert "Москва" in compact and "Темы на защите" in compact
+                assert name in compact and role in compact, (i, name, role)
+            assert all(label not in words for label in ("москва", "2026", "темы на защите")), i
+            portraits = set()
+            for obj in page["/Resources"].get("/XObject", {}).values():
+                resource = obj.get_object()
+                if resource.get("/Subtype") == "/Image" and resource.get("/Width", 0) >= 140 and resource.get("/Height", 0) >= 160:
+                    portraits.add(obj.idnum)
+            assert len(portraits) >= 4, (i, "portraits", len(portraits))
         if i == 6:
             assert "Карта пути продавца и покупателя" in " ".join(text.split())
         # Rasterization uses the actual PDF. The QR must decode at normal screen size.

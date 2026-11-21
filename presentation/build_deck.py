@@ -134,51 +134,50 @@ team = [
     (
         "Егор Чуланов",
         "Продукт и прототип",
-        "Сценарии магазина, кабинет продавца и демонстрация заказа.",
-        "egor.webp",
-        "",
+        "Кабинет продавца и оформление заказа из клипа.",
+        "team-egor.webp",
+        "laptop",
     ),
     (
         "Екатерина Макаренко",
         "Исследование и путь покупателя",
-        "Сравнение каналов продаж, задачи покупателя и карта пути.",
-        "kate.webp",
-        "",
+        "Каналы продаж, выбор товара и условия получения.",
+        "team-kate.webp",
+        "compass",
     ),
     (
         "Максим Ширяев",
         "Данные и эксперимент",
-        "Выбор сообществ, метрики заказов и дизайн проверки.",
-        "",
-        "МШ",
+        "Отбор сообществ, метрики заказов и план эксперимента.",
+        "team-maxim.webp",
+        "graph",
     ),
     (
         "Анфиса Опарина",
         "Экономика и запуск",
-        "Бюджет, денежный поток и решение о расширении пилота.",
-        "",
-        "АО",
+        "Бюджет пилота, денежный поток и срок окупаемости.",
+        "team-anfisa.webp",
+        "wallet",
     ),
 ]
 
 
 def team_card(member):
-    name, role, desc, photo, initial = member
-    portrait = (
-        img(photo, "portrait", name)
-        if photo
-        else f'<div class="portrait letters">{initial}</div>'
+    name, role, desc, photo, icon = member
+    return (
+        '<article class="person"><div class="portrait-stage">'
+        + img(photo, "portrait", name)
+        + f'</div><h2><span>{name}</span></h2><h3>'
+        + img(f"vk-icons/{icon}_outline_24.svg")
+        + f'{role}</h3><p>{desc}</p></article>'
     )
-    return f'<article class="person">{portrait}<div><h2>{name}</h2><h3>{role}</h3><p>{desc}</p></div></article>'
 
 
 slide(
     "Команда",
     "Команда Digital Cat$",
-    '<div class="teamlegend"><span>Темы на защите</span><b>Москва, 2026</b></div><div class="people">'
+    '<div class="people">'
     + "".join(team_card(t) for t in team)
-    + '</div><div class="teamseal">'
-    + img("digital-cat.svg", alt="Знак команды Digital Cat$")
     + "</div>",
 )
 
@@ -341,6 +340,34 @@ def levels():
     )
 
 
+def segment_weight():
+    rows = []
+    for label, icon, key in [
+        ("Бизнесы", "shop", "businesses"),
+        ("Заказы", "cart", "orders"),
+    ]:
+        count, total = pilot[key], audit["totals"][key]
+        percent = 100 * count / total
+        rows.append(
+            f'<div class="segment-weight-row">{img(f"icon-{icon}.svg")}'
+            f'<span>{label} <small>{n(count)} из {n(total)}</small></span>'
+            f'<b>{comma(percent)}%</b><div class="segment-rail">'
+            f'<i style="width:{percent:.3f}%"></i></div></div>'
+        )
+    return '<figure class="segment-weight"><figcaption>Доля сегмента в выборке</figcaption>' + "".join(rows) + "</figure>"
+
+
+def order_mix():
+    selling, total = pilot["selling"], pilot["businesses"]
+    share = 100 * selling / total
+    return (
+        f'<figure class="order-mix"><figcaption>{n(total)} сообщества в сентябре</figcaption>'
+        f'<div class="mix-rail" aria-hidden="true"><i style="width:{100 - share:.3f}%"></i></div>'
+        f'<div class="mix-labels"><span><b>{comma(100 - share)}%</b>без заказов</span>'
+        f'<span><b>{comma(share)}%</b>с заказами</span></div></figure>'
+    )
+
+
 slide(
     "Аудитория",
     "Целевые сообщества",
@@ -351,12 +378,9 @@ slide(
             levels()
             + item(
                 "Размер аудитории",
-                "Больше 1 000 и до 100 000 подписчиков включительно. В группе есть магазины с заказами и без них.",
+                "От 1 001 до 100 000 подписчиков включительно.",
             )
-            + note(
-                "1 869 из 3 478 заказов",
-                "На 493 сообщества приходится 53,7% всех оформлений в выборке бизнесов.",
-            ),
+            + segment_weight(),
         ),
         col(
             "chart",
@@ -378,7 +402,8 @@ slide(
         col(
             "shop",
             "Два сценария для продавца",
-            item(
+            order_mix()
+            + item(
                 "372 сообщества пока без заказов",
                 "На старте показываем товар с неполными условиями. Продавец исправляет карточку и проверяет её со стороны покупателя.",
             )
@@ -504,7 +529,9 @@ slide(
     + "</div>"
     + '<div class="producttail">'
     + qr("prototype", "prototype/", "Попробовать магазин", "Оформите самовывоз за покупателя и отметьте выдачу за продавца.")
-    + '<p><b>Что увидит продавец</b><br>Открытия по публикациям, источник заказа, выдачи и отмены.</p></div>',
+    + '<div class="order-example"><b>Заказ из клипа «После обжига»</b>'
+    '<ol><li>Кружка «Утро»<small>1&nbsp;450&nbsp;₽</small></li><li>Самовывоз<small>В мастерской</small></li>'
+    '<li>Выдан<small>В обоих кабинетах</small></li></ol></div></div>',
 )
 
 slide(
@@ -721,6 +748,47 @@ slide(
 )
 
 base = model["scenarios"][1]
+
+
+def scenario_flows():
+    # Widths share one linear scale, from minus 0.5 to plus 3 million roubles.
+    x_zero = 54
+    pixels_per_million = 100
+    svg = []
+    for i, scenario in enumerate(model["scenarios"]):
+        y = 22 + 51 * i
+        monthly = scenario["net_monthly_steady"] / 1_000_000
+        x_end = x_zero + monthly * pixels_per_million
+        sign = "+" if monthly >= 0 else "−"
+        sign_label = sign + comma(abs(monthly), 3)
+        color = "#ae4e40" if monthly < 0 else blue
+        svg.append(
+            f'<text x="5" y="{y}" class="flow-name">{scenario["scenario"]}</text>'
+            f'<text x="137" y="{y}" class="flow-count">{n(scenario["active"])} продавцов</text>'
+            f'<text x="357" y="{y}" text-anchor="end" class="flow-amount" fill="{color}">{sign_label}</text>'
+            f'<rect x="{min(x_end, x_zero):.2f}" y="{y + 8}" width="{abs(x_end - x_zero):.2f}" '
+            f'height="11" rx="2" fill="{color}"/>'
+            f'<path d="M{x_zero} {y + 4}v19" class="flow-zero"/>'
+        )
+    ticks = []
+    for value in (-0.5, 0, 1, 2, 3):
+        x = x_zero + value * pixels_per_million
+        anchor = "start" if value == -0.5 else "end" if value == 3 else "middle"
+        label = "−0,5" if value < 0 else str(value)
+        ticks.append(
+            f'<path d="M{x} 152v4" class="flow-tick"/><text x="{x}" y="173" '
+            f'text-anchor="{anchor}" class="flow-axis">{label}</text>'
+        )
+    return (
+        '<figure class="scenario-flows"><figcaption>Денежный поток при плановом числе продавцов, млн ₽ в месяц</figcaption>'
+        '<svg viewBox="0 0 361 178" role="img" aria-label="Месячный денежный поток в трёх сценариях">'
+        + "".join(svg)
+        + '<path d="M4 152H354" class="flow-tick"/>'
+        + "".join(ticks)
+        + '</svg></figure>'
+    )
+
+
 slide(
     "Приложение",
     "Финансовая модель",
@@ -763,11 +831,7 @@ slide(
         col(
             "check",
             "Три сценария",
-            '<p class="sub">Активные продавцы и месячный поток после подключения</p>'
-            + "".join(
-                f'<div class="scenario"><span>{s["scenario"]}<small>{n(s["active"])} продавцов</small></span><b>{("+" if s["net_monthly_steady"] > 0 else "−") + n(abs(s["net_monthly_steady"]) / 1000)} тыс. ₽</b></div>'
-                for s in model["scenarios"]
-            )
+            scenario_flows()
             + item("Итог за 24 месяца", "+3,015 млн ₽ в базовом сценарии.")
             + qr(
                 "model",
@@ -922,11 +986,11 @@ slide(
             ),
         ),
     )
-    + '<footer class="method-note"><div><h2>Как использовали ИИ</h2>'
-    '<p>OpenAI Codex помог написать код прототипа и расчётов, построить графики и отредактировать слайды. '
-    'Для расшифровки консультации VK использовали Whisper.</p></div>'
-    '<div><h2>Что перепроверили</h2><p>По исходной книге заново отобрали 493 сообщества и пересчитали 1&nbsp;869 заказов. '
-    'Сверили три финансовых сценария. В двух браузерах прошли путь от клипа до выдачи заказа.</p></div></footer>',
+    + '<footer class="method-note"><div><h2>Предложение команды</h2>'
+    '<p>Начать с магазинов, чьи товары уже смотрят. По исходной книге проверили отбор 493 сообществ и пересчитали 1&nbsp;869 заказов. '
+    'Сверили три финансовых сценария и прошли путь от клипа до выдачи заказа.</p></div>'
+    '<div><h2>Как использовали ИИ</h2><p>С OpenAI Codex сравнивали гипотезы, писали код расчётов и прототипа, '
+    'готовили слайды. В Whisper расшифровали консультацию VK. Для портретов сравнили маски ImageGen и Apple Vision.</p></div></footer>',
 )
 
 if len(pages) != 14:
