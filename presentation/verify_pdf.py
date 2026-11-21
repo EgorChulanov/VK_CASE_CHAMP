@@ -18,9 +18,14 @@ def verify(path, preview_dir=None):
     for i, page in enumerate(reader.pages, 1):
         text = page.extract_text()
         assert not any(mark in text for mark in ("\u2014", "\u00b7", "\u2022")), (i, "punctuation")
+        words = " ".join(text.lower().split())
         assert not any(
-            t in text.lower()
+            t in words
             for t in (
+                "где путь расходится",
+                "сентябрьская связь между просмотрами",
+                "оценки проверим в интервью",
+                "вклад инструмента проверит эксперимент",
                 "коротко о решении",
                 "два окна",
                 "openai",

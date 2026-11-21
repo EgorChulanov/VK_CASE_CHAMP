@@ -123,17 +123,13 @@ a {
   font-size: 53px;
   line-height: 1.06;
 }
-.sub,
-.sourcehint {
+.sub {
   font-size: 16px;
   line-height: 1.29;
   color: var(--muted);
 }
 .sub {
   margin: 3px 0 13px;
-}
-.sourcehint {
-  margin-top: 14px;
 }
 .entry {
   padding: 11px 0;
@@ -432,18 +428,6 @@ h3 {
   gap: 25px;
   margin-top: 14px;
 }
-.maptail > div {
-  padding: 4px 0 4px 13px;
-  border-left: 4px solid #4092e8;
-}
-.maptail strong {
-  font-size: 19px;
-}
-.maptail p {
-  font-size: 16px;
-  color: #435a6d;
-  margin-top: 5px;
-}
 .scan {
   display: flex;
   align-items: center;
@@ -573,8 +557,8 @@ h3 {
 }
 .decision {
   display: grid;
-  grid-template-columns: 1fr 1.25fr 1.28fr 1.55fr;
-  gap: 20px;
+  grid-template-columns: 1.12fr .94fr 1.08fr 1fr 1.48fr;
+  gap: 17px;
   border-bottom: 1px solid var(--rule);
   padding: 13px 13px;
   align-items: center;
@@ -584,6 +568,36 @@ h3 {
 }
 .decision h3 {
   font-size: 19px;
+}
+.decision h3 + p {
+  margin-top: 3px;
+  color: var(--muted);
+}
+.causes ul {
+  list-style: none;
+  padding: 0 0 0 13px;
+  margin: 7px 0 0 7px;
+  border-left: 2px solid #98bddf;
+}
+.causes li {
+  position: relative;
+  font-size: 16px;
+  line-height: 1.23;
+}
+.causes li::before {
+  content: "";
+  position: absolute;
+  top: .6em;
+  left: -14px;
+  width: 10px;
+  border-top: 2px solid #98bddf;
+}
+.causes > ul > li {
+  margin: 0 0 19px;
+}
+.causes b {
+  color: #12528c;
+  font-size: 18px;
 }
 .decision strong {
   font-size: 16px;
@@ -644,6 +658,10 @@ h3 {
   margin-top: 4px;
   color: #43596c;
 }
+#p3 .bnode{padding-block:7px}
+#p4 aside{padding-block:10px;margin-top:10px}
+#p4 .bnode{padding-block:7px;margin-block:7px}
+#p4 .bar{margin-block:10px}
 #p5 .entry,
 #p13 .entry {
   padding: 9px 0;
@@ -703,7 +721,7 @@ h3 {
   font-family: VKText, sans-serif;
 }
 
-.sub,.sourcehint,.source p{font-weight:400}
+.sub,.source p{font-weight:400}
 
 .producttail{display:grid;grid-template-columns:1.15fr 1fr;gap:28px;margin-top:12px;padding-top:8px}
 .producttail .scan{margin:0;padding:0;min-height:70px;background:transparent}
