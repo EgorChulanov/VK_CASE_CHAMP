@@ -1,6 +1,7 @@
 """Assemble the jury site from the published materials and the browser build."""
 
 import argparse
+import hashlib
 import shutil
 from pathlib import Path
 
@@ -35,7 +36,12 @@ def export(target):
     for name, source in assets.items():
         destination = target / name
         destination.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(root / source, destination)
+        if name == "index.html":
+            pdf_revision = hashlib.sha256((root / assets["slides.pdf"]).read_bytes()).hexdigest()[:12]
+            html = (root / source).read_text().replace('href="slides.pdf', f'href="slides.pdf?v={pdf_revision}')
+            destination.write_text(html)
+        else:
+            shutil.copyfile(root / source, destination)
     (target / ".nojekyll").touch()
 
 

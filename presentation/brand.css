@@ -676,6 +676,28 @@ h3 {
 #p14 .scan {
   margin-bottom: 4px;
 }
+#p14 .source {
+  padding-block: 6px;
+}
+.method-note {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-top: 12px;
+  border-top: 2px solid #87bfff;
+  padding-top: 9px;
+}
+.method-note h2 {
+  margin: 0 0 3px;
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 650;
+}
+.method-note p {
+  color: #33495d;
+  font-size: 16px;
+  line-height: 1.28;
+}
 #p6 .heading {
   padding-bottom: 18px;
 }

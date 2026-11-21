@@ -28,10 +28,21 @@ def verify(path, preview_dir=None):
                 "вклад инструмента проверит эксперимент",
                 "коротко о решении",
                 "два окна",
-                "openai",
                 "методика использования",
             )
         ), i
+        if i == len(reader.pages):
+            for required in (
+                "как использовали ии",
+                "openai codex",
+                "whisper",
+                "что перепроверили",
+                "по исходной книге",
+                "до выдачи заказа",
+            ):
+                assert required in words, (i, required)
+        else:
+            assert "как использовали ии" not in words, i
         assert float(page.mediabox.width) / float(page.mediabox.height) == 16 / 9
         fonts = page["/Resources"].get("/Font", {})
         for font in fonts.values():

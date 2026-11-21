@@ -330,16 +330,22 @@ button:focus-visible {
     font-size: 13px;
   }
   .layout nav {
-    display: flex;
-    overflow: auto;
-    margin: 9px 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2px;
+    margin: 8px 0 12px;
   }
   .layout nav button {
-    width: auto;
-    white-space: nowrap;
-    font-size: 14px;
+    min-width: 0;
+    min-height: 42px;
+    padding: 4px;
+    margin: 0;
+    justify-content: center;
+    gap: 4px;
+    font-size: 13px;
   }
   .layout nav svg {
+    flex: 0 0 17px;
     width: 17px;
   }
   .banner,
@@ -469,9 +475,6 @@ nav button {
   .feed .photo {
     height: 220px;
   }
-  .layout nav {
-    scrollbar-width: thin;
-  }
   .layout nav button.active {
     border-radius: 12px;
   }
@@ -564,9 +567,29 @@ html.vkui, #root .vkuiAppRoot__host {
   .share-shop { padding: 8px; }
   .share-shop span { display: none; }
   .clip-story { display: block; }
-  .clip-video { height: min(46svh,430px); width: 100%; object-fit: contain; }
+  .clip-video { height: min(40svh,375px); width: 100%; object-fit: contain; }
   .clip-info { padding: 15px; }
   .clip-info h2 { margin: 14px 0 6px; }
   .clip-info h3 { margin: 14px 0 6px; }
   .clip-info p { margin: 6px 0; max-width: none; }
+}
+
+
+.product-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 6px 8px;
+  margin-bottom: 4px;
+  background: transparent;
+  color: #145698;
+  font-weight: 500;
+}
+.product-back:hover { background: #e3edf7; }
+@media (min-width: 640px) and (max-width: 760px) {
+  .layout nav { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
+@media (max-width: 350px) {
+  .layout nav svg { display: none; }
 }

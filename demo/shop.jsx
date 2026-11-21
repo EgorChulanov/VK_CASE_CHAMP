@@ -35,6 +35,12 @@ import {
   formatShopTime,
 } from "./workbench.jsx";
 
+const returnToSource = {
+  "Клипы": "Вернуться к клипу",
+  "Лента": "Вернуться к записи",
+  "Маркет": "Вернуться в Маркет",
+  "Витрина": "Вернуться на витрину",
+};
 const rub = (n) => new Intl.NumberFormat("ru-RU").format(n) + " ₽";
 function Action({ children, onClick, secondary = false, disabled = false }) {
   return (
@@ -190,6 +196,7 @@ function Edit({ product, commit, busy }) {
 }
 function Shop() {
   const generation = useRef(0);
+  const viewSession = useRef(null);
   const [syncNote, setSyncNote] = useState("");
   const [shared, setShared] = useState(false);
   const [manualLink, setManualLink] = useState("");
@@ -242,6 +249,7 @@ function Shop() {
     return s;
   }
   useEffect(() => {
+    viewSession.current = crypto.randomUUID();
     refresh()
       .then((s) => go(s.role === "seller" ? "Обзор" : "Лента"))
       .catch((e) => {
@@ -274,7 +282,7 @@ function Shop() {
       lock(false);
     }
   }
-  function nav(v) {
+  function showPage(v) {
     window.scrollTo(0, 0);
     go(v);
     error("");
@@ -283,10 +291,43 @@ function Shop() {
     setSourceFilter("Все каналы");
     why("");
   }
+  function nav(next, destination = {}) {
+    if (store?.role === "buyer" && next !== page) {
+      // Both entries keep the invitation hash. History only stores UI state.
+      const session = viewSession.current;
+      const previous = { session, page, id, origin, method, qty, scrollY: window.scrollY };
+      history.replaceState({ shopView: previous }, "");
+      history.pushState({ shopView: { session, page: next, ...destination } }, "");
+    }
+    showPage(next);
+  }
+  useEffect(() => {
+    function restoreView(event) {
+      if (!store?.role) return;
+      const view = event.state?.shopView;
+      if (store.role !== "buyer" || view?.session !== viewSession.current) {
+        showPage(store.role === "buyer" ? "Лента" : "Обзор");
+        return;
+      }
+      if (view.id != null) select(view.id);
+      if (view.page === "Карточка") {
+        setOrigin(view.origin);
+        choose(view.method);
+        count(view.qty);
+      }
+      showPage(view.page);
+      if (view.scrollY) requestAnimationFrame(() => window.scrollTo(0, view.scrollY));
+    }
+    window.addEventListener("popstate", restoreView);
+    return () => window.removeEventListener("popstate", restoreView);
+  }, [store?.role]);
+
   async function login(role) {
     await api("session", "POST", { role });
     await refresh();
-    nav(role === "seller" ? "Обзор" : "Лента");
+    viewSession.current = crypto.randomUUID();
+    history.replaceState(null, "");
+    showPage(role === "seller" ? "Обзор" : "Лента");
   }
   const seller = store?.role === "seller",
     orders = store?.orders || [],
@@ -310,16 +351,17 @@ function Shop() {
       error(e.message);
       return;
     }
-    setOrigin({ surface, post_id });
-
+    const source = { surface, post_id };
+    const delivery = x.pickup ? "pickup" : "courier";
+    setOrigin(source);
     select(x.id);
     count(1);
-    choose(x.pickup ? "pickup" : "courier");
-    nav("Карточка");
+    choose(delivery);
+    nav("Карточка", { id: x.id, origin: source, method: delivery, qty: 1 });
   };
   const order = (x) => {
     select(x.id);
-    nav("Заказ");
+    nav("Заказ", { id: x.id });
   };
   const tabs = seller
     ? [
@@ -518,7 +560,10 @@ function Shop() {
     const saved = store.saved.includes(p.id);
     content = (
       <>
-        <div className="crumb">Тёплый дом › {origin.surface}</div>
+        <button className="product-back" onClick={() => history.back()}>
+          <span aria-hidden="true">←</span>
+          {returnToSource[origin.surface]}
+        </button>
         <section className="box detail">
           <Photo p={p} />
           <div>
@@ -910,6 +955,7 @@ function Shop() {
               <button
                 key={label}
                 className={page === label ? "active" : ""}
+                aria-current={page === label ? "page" : undefined}
                 onClick={() => nav(label)}
               >
                 <Icon />

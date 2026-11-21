@@ -12,6 +12,18 @@ const screenshots = process.env.SHOP_SCREENSHOTS;
 const button = (page, name) =>
   page.getByRole("button", { name, exact: true }).first();
 
+async function assertNavFits(page) {
+  const nav = page.locator("nav");
+  await nav.waitFor();
+  assert.equal(await nav.getByRole("button").count(), 6);
+  assert(await nav.evaluate(el => el.scrollWidth <= el.clientWidth &&
+    [...el.querySelectorAll("button")].every(b => {
+      const rect = b.getBoundingClientRect();
+      return rect.left >= 0 && rect.right <= window.innerWidth && rect.height >= 40;
+    })
+  ), "Все шесть разделов должны быть видны без горизонтальной прокрутки");
+}
+
 async function port() {
   const socket = net.createServer();
   await new Promise((resolve) => socket.listen(0, "127.0.0.1", resolve));
@@ -252,12 +264,28 @@ async function capture(page, name) {
     });
     assert.equal(await video.evaluate(el => Math.round(el.duration)), 9);
     await capture(buyer, "clip");
+    const beforeCard = buyer.url();
+    const cardTitle = buyer.getByRole("heading", { name: "Кружка «Утро»" });
     await buyer.locator(".clip-tag").click();
-    await buyer.getByRole("heading", { name: "Кружка «Утро»" }).waitFor();
+    await cardTitle.waitFor();
+    await buyer.goBack();
+    await buyer.getByRole("heading", { name: "Клипы сообщества" }).waitFor();
+    await buyer.goForward();
+    await cardTitle.waitFor();
+    await button(buyer, "Вернуться к клипу").click();
+    await buyer.getByRole("heading", { name: "Клипы сообщества" }).waitFor();
+    assert.equal(buyer.url(), beforeCard);
+    await buyer.goForward();
+    await cardTitle.waitFor();
     await button(buyer, "В корзину").click();
     await button(buyer, "Оформить заказ").click();
     const clipOrder = await buyer.getByRole("heading", { name: /Заказ №/ }).innerText();
     await button(buyer, "Войти как продавец").click();
+    // Buyer history cannot reopen buyer-only screens after switching roles.
+    await buyer.goBack();
+    await buyer.getByText("Требуют внимания", { exact: true }).waitFor();
+    await buyer.setViewportSize({ width: 320, height: 740 });
+    await assertNavFits(buyer);
     await button(buyer, "Заказы").click();
     await buyer.getByRole("button", { name: new RegExp(clipOrder.replace("Заказ ", "")) }).click();
     await button(buyer, "Подтвердить выдачу").click();
@@ -268,6 +296,7 @@ async function capture(page, name) {
     });
     assert.deepEqual([source.opens, source.orders, source.issued], [1, 1, 1]);
     await button(buyer, "Войти как покупатель").click();
+    await assertNavFits(buyer);
     await button(buyer, "Мои заказы").click();
     await buyer.getByRole("button", { name: new RegExp(clipOrder.replace("Заказ ", "")) }).getByText("Выдан").waitFor();
     assert.deepEqual(errors, []);

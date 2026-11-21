@@ -36,7 +36,13 @@ async function test() {
     await video.evaluate(el => el.play());
     await buyer.waitForFunction(() => document.querySelector("video")?.currentTime > 0.2);
     await buyer.locator(".clip-tag").click();
-    await buyer.getByRole("heading", { name: "Кружка «Утро»" }).waitFor();
+    const productHeading = buyer.getByRole("heading", { name: "Кружка «Утро»" });
+    await productHeading.waitFor();
+    await button(buyer, "Вернуться к клипу").click();
+    await buyer.getByRole("heading", { name: "Клипы сообщества" }).waitFor();
+    assert.equal(buyer.url(), invitation);
+    await buyer.goForward();
+    await productHeading.waitFor();
     await button(buyer, "В корзину").click();
     await button(buyer, "Оформить заказ").click();
     const heading = await buyer.getByRole("heading", { name: /Заказ №/ }).innerText();
