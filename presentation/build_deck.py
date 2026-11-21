@@ -167,7 +167,9 @@ def team_card(member):
     return (
         '<article class="person"><div class="portrait-stage">'
         + img(photo, "portrait", name)
-        + f'</div><h2><span>{name}</span></h2><h3>'
+        + f'</div><h2><span>{name}</span></h2>'
+        + '<p class="education">Высшая школа экономики, 2-й курс<br>'
+        '«Управление цифровым продуктом»</p><h3>'
         + img(f"vk-icons/{icon}_outline_24.svg")
         + f'{role}</h3><p>{desc}</p></article>'
     )

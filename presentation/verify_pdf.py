@@ -68,6 +68,8 @@ def verify(path, preview_dir=None):
             assert "москва, 2026" in words and "digital cat$" in words
         if i == 2:
             compact = " ".join(text.split())
+            for education_line in ("Высшая школа экономики, 2-й курс", "«Управление цифровым продуктом»"):
+                assert compact.count(education_line) == 4, (i, education_line)
             for name, role in (
                 ("Егор Чуланов", "Продукт и прототип"),
                 ("Екатерина Макаренко", "Исследование и путь покупателя"),
